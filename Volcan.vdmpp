@@ -1,0 +1,51 @@
+
+class Volcan
+
+  instance variables
+    private id: nat1;
+    private nombre: seq of char;
+    private listaSensoresGeoterm: seq of SensorGeoterm;
+    private listaSensoresSism: seq of SensorSism;
+
+  operations
+
+    public Volcan
+      : nat1 * seq of char * seq of SensorGeoterm * seq of SensorSism==> Volcan
+    Volcan(i, n, sensoresGeoterm, sensoresSism)
+      ==
+      (
+        id := i;
+        nombre := n;
+        listaSensoresGeoterm := sensoresGeoterm;
+        listaSensoresSism := sensoresSism;
+        return self;
+      )
+      pre i > 0;
+
+    -- Obtener el ID del volcán
+    public GetID: () ==> nat1
+    GetID() == return id;
+
+    -- Obtener el nombre del volcán
+    public GetNombre: () ==> seq of char
+    GetNombre() == return nombre;
+
+    -- Obtener la lista de sensores geotérmicos del volcán
+    public GetListaSensoresGeoterm: () ==> seq of SensorGeoterm
+    GetListaSensoresGeoterm() == return listaSensoresGeoterm;
+
+    -- Obtener la lista de sensores sísmicos del volcán
+    public GetListaSensoresSism: () ==> seq of SensorSism   
+    GetListaSensoresSism() == return listaSensoresSism;
+
+    -- Agregar un sensor geotérmico a la lista de sensores del volcán
+    public AgregarSensorGeoterm: SensorGeoterm ==> ()
+    AgregarSensorGeoterm(sensor) ==
+      listaSensoresGeoterm := listaSensoresGeoterm ^ [sensor];
+
+    -- Agregar un sensor sísmico a la lista de sensores del volcán
+    public AgregarSensorSism: SensorSism ==> ()
+    AgregarSensorSism(sensor) ==
+      listaSensoresSism := listaSensoresSism ^ [sensor];
+
+end Volcan

@@ -1,0 +1,55 @@
+class Monitor
+
+  types
+    public EstadosSensoresSism = 
+      EstadosSensoresSism | 
+        cambioTemperatura: SensorGeoterm`CambioTemp
+        magnitudSism: SensorSismometro`MagnitudSismo
+        actividad: SensorSismometro`EstadoSism
+
+
+    public EstadoVolcan = 
+      <Normal> | <Precaucion> | <Peligro> | <Evacuacion> | <Emergencia>;
+    
+    
+
+    -- public
+
+  instance variables
+    private id: nat1;
+    private volcan: Volcan;
+    private EstadosSensoresToEstado: map EstadoVolcan to EstadosSensoresSism;
+    private alarma: EstadoVolcan;  -- El estado de alarma ahora es una variable independiente
+
+  operations
+
+    public Monitor
+      : nat1 * Volcan * map EstadoVolcan to EstadosSensoresSism * EstadoVolcan ==> Monitor
+    Monitor(i, v, estadosSensores, a)
+      ==
+      (
+        id := i;
+        volcan := v;
+        EstadosSensoresToEstado := estadosSensores;
+        alarma := a;
+        return self;
+      )
+      pre i > 0;
+
+    -- Obtener el ID del monitor
+    public GetID: () ==> nat1
+    GetID() == return id;
+
+    -- Obtener el volcán asociado al monitor
+    public GetVolcan: () ==> Volcan
+    GetVolcan() == return volcan;
+
+    -- Obtener el estado de alarma del monitor
+    public GetAlarma: () ==> EstadoVolcan
+    GetAlarma() == return alarma;
+
+    -- Obtener el estado de los sensores sísmicos asociados al estado de alarma
+    public GetEstadosSensores: () ==> EstadosSensoresSism
+    GetEstadosSensores() == return EstadosSensoresToEstado(alarma);
+
+end Monitor

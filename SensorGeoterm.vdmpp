@@ -1,0 +1,52 @@
+class SensorGeoterm is subclass of Sensor
+
+  types
+    public CambioTemp = <Leve> | <Moderado> | <Brusco>;
+  
+  instance variables
+    private cambioTemperatura: CambioTemp;
+    private listaTemperaturas: seq of real;
+    private nuevaTemp: real;
+
+  operations
+
+    public SensorGeoterm
+      : nat1 * real * real * real * bool * 
+        nat1 * nat1 * nat1 * seq of real * real ==> SensorGeoterm
+    SensorGeoterm
+      (i, x, y, z, activo, anio, mes, dia, temperaturas, nueva)
+      ==
+      (
+        -- cambioTemperatura := cambio;
+        listaTemperaturas := temperaturas;
+        nuevaTemp := nueva;
+
+
+        self.Sensor(i, x, y, z, activo, anio, mes, dia);
+        -- self.SensorInit(i, x, y, z, activo, anio, mes, dia);
+        
+        return self;
+      )
+      pre i > 0 and anio > 0 and mes > 0 and mes <= 12 and dia > 0 and dia <= 31;
+
+    -- Obtener el cambio de temperatura del sensor geotérmico
+    public GetCambioTemperatura: () ==> CambioTemp
+    GetCambioTemperatura() == return cambioTemperatura;
+
+    -- Obtener la lista de temperaturas del sensor geotérmico
+    public GetListaTemperaturas: () ==> seq of real
+    GetListaTemperaturas() == return listaTemperaturas;
+
+    -- Obtener la nueva temperatura del sensor geotérmico
+    public GetNuevaTemp: () ==> real
+    GetNuevaTemp() == return nuevaTemp;
+
+    -- public LeerNuevoValor: (real) ==> ()
+    -- LeerNuevoValor(newTemp) == (
+      
+    --   cambioTemperatura
+    --   listaTemperaturas
+    --   nuevaTemp
+    -- )
+
+end SensorGeoterm

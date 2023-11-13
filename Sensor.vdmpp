@@ -1,0 +1,55 @@
+class Sensor
+  types
+    public Date :: day:nat1 
+                   month:nat1 
+                   year:nat 
+    inv mk_Date(d,m,y) == d <=31 and m<=12 and ((m = 2) => d <= 28);
+    
+    public Latitude = real
+      inv lat == -90 <= lat and lat <= 90;
+      
+    public Position ::  lat : Latitude
+                        long : real
+                        alt : real
+  instance variables
+    public id: nat1;
+    private ubicacion: Position;
+    private estaActivo: bool;
+    private fecha: Date;
+  
+  operations
+
+    public Sensor
+  : nat1 * real * real * real * bool * 
+    nat1 * nat1 * nat1 ==> Sensor
+  
+    Sensor
+  (i, x, y, z, activo, anio, mes, dia) ==
+    (
+      id := i;
+      ubicacion := mk_Position(x, y, z);
+      estaActivo := activo;
+      fecha := mk_Date(dia, mes, anio);
+      return self;
+    )
+    
+    pre i > 0 and anio > 0 and mes > 0 and mes <= 12 and dia > 0 and dia <= 31;
+
+    -- Obtener el ID del sensor
+    public GetID: () ==> nat1
+    GetID() == return id;
+
+    -- Obtener la ubicación del sensor
+    public GetUbicacion: () ==> Position
+    GetUbicacion() == return ubicacion;
+
+    -- Verificar si el sensor está activo
+    public EstaActivo: () ==> bool
+    EstaActivo() == return estaActivo;
+
+    -- Obtener la fecha del sensor
+    public GetDate: () ==> Date
+    GetDate() == return fecha;
+
+end Sensor
+

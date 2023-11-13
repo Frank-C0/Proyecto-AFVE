@@ -1,0 +1,66 @@
+class SensorSism is subclass of Sensor
+
+  types
+    public MagnitudSismo = 
+      <pequenosTerremotos> | <terremotosModerados> | <terremotosFuertes> |
+      <terremotosMayores> | <grandesTerremotos> | <terremotosMuyGrandes>;
+
+    public EstadoSism = <muyActivo> | <moderadamenteActivo> | <pocoActivo> | <inactivo>;
+  
+  instance variables
+    private estadoActual: MagnitudSismo;
+    private actividad: EstadoSism;
+    private magnitudActual: real;
+    private magnitudes: seq of real;
+
+  operations
+
+    public SensorSism
+      : nat1 * real * real * real * bool * 
+        nat1 * nat1 * nat1 * MagnitudSismo * EstadoSism * real * seq of real ==> SensorSism
+    SensorSism
+      (i, x, y, z, activo, anio, mes, dia, estado, act, magnitud, mags)
+      ==
+      (
+        -- id := i;
+        -- ubicacion := mk_Position(x, y, z);
+        -- estaActivo := activo;
+        -- fecha := mk_Date(dia, mes, anio);
+        estadoActual := estado;
+        actividad := act;
+        magnitudActual := magnitud;
+        magnitudes := mags;
+        
+        self.Sensor(i, x, y, z, activo, anio, mes, dia);
+        return self;
+      )
+      pre i > 0 and anio > 0 and mes > 0 and mes <= 12 and dia > 0 and dia <= 31;
+
+    -- Obtener el estado actual del sismómetro
+    public GetEstadoActual: () ==> MagnitudSismo
+    GetEstadoActual() == return estadoActual;
+
+    -- Obtener la actividad del sismómetro
+    public GetActividad: () ==> EstadoSism
+    GetActividad() == return actividad;
+
+    -- Obtener la magnitud actual del sismómetro
+    public GetMagnitudActual: () ==> real
+    GetMagnitudActual() == return magnitudActual;
+
+    -- Obtener las magnitudes almacenadas del sismómetro
+    public GetMagnitudes: () ==> seq of real
+    GetMagnitudes() == return magnitudes;
+
+
+    -- public LeerNuevoValor: (real) ==> ()
+    -- LeerNuevoValor(newTemp) == (
+      
+    --   cambioTemperatura
+    --   listaTemperaturas
+    --   nuevaTemp
+    -- )
+    
+
+end SensorSism
+

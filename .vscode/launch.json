@@ -1,0 +1,20 @@
+{
+    "configurations": [
+		{
+			"name": "Launch AlarmPP Debug 1",
+			"type": "vdm",
+			"request": "launch",
+			"noDebug": false,
+			"defaultName": "Test1",
+			"command": "print new Test1().Run()"
+		},
+		{
+			"name": "Lens config: Debug Test1`Run",
+			"type": "vdm",
+			"request": "launch",
+			"noDebug": false,
+			"defaultName": "Test1",
+			"command": "p new Test1().Run()"
+		}
+	]
+}
