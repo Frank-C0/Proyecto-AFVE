@@ -2,29 +2,37 @@ class SensorGeoterm is subclass of Sensor
 
   types
     public CambioTemp = <Leve> | <Moderado> | <Brusco>;
-  
+
+    public POSIX_Time = nat
+      inv t == t >=0;
+
+    public RegistroTemperaturaTiempo :: 
+      tiempo: POSIX_Time
+      temperatura: Kelvin
+      inv mk_RegistroTemperaturaTiempo(t,m) == t >= 0 and m >= 0;
+
+    public Kelvin = real
+      inv k == k >= 0;
+
   instance variables
     private cambioTemperatura: CambioTemp;
-    private listaTemperaturas: seq of real;
-    private nuevaTemp: real;
+    private listaTemperaturas: seq of RegistroTemperaturaTiempo;
+    -- private nuevaTemp: Kelvin;
 
   operations
 
     public SensorGeoterm
       : nat1 * real * real * real * bool * 
-        nat1 * nat1 * nat1 * seq of real * real ==> SensorGeoterm
+        nat1 * nat1 * nat1 ==> SensorGeoterm
     SensorGeoterm
-      (i, x, y, z, activo, anio, mes, dia, temperaturas, nueva)
+      (i, x, y, z, activo, anio, mes, dia)
       ==
       (
-        -- cambioTemperatura := cambio;
-        listaTemperaturas := temperaturas;
-        nuevaTemp := nueva;
+        cambioTemperatura := <Leve> ;
+        listaTemperaturas := [];
+        -- nuevaTemp := 273;
 
-
-        self.Sensor(i, x, y, z, activo, anio, mes, dia);
-        -- self.SensorInit(i, x, y, z, activo, anio, mes, dia);
-        
+        self.Sensor(i, x, y, z, activo, anio, mes, dia);        
         return self;
       )
       pre i > 0 and anio > 0 and mes > 0 and mes <= 12 and dia > 0 and dia <= 31;
@@ -34,19 +42,45 @@ class SensorGeoterm is subclass of Sensor
     GetCambioTemperatura() == return cambioTemperatura;
 
     -- Obtener la lista de temperaturas del sensor geotérmico
-    public GetListaTemperaturas: () ==> seq of real
-    GetListaTemperaturas() == return listaTemperaturas;
+    -- public GetListaTemperaturas: () ==> seq of real
+    -- GetListaTemperaturas() == return listaTemperaturas;
 
     -- Obtener la nueva temperatura del sensor geotérmico
-    public GetNuevaTemp: () ==> real
-    GetNuevaTemp() == return nuevaTemp;
+    -- public GetNuevaTemp: () ==> real
+    -- GetNuevaTemp() == return nuevaTemp;
 
-    -- public LeerNuevoValor: (real) ==> ()
-    -- LeerNuevoValor(newTemp) == (
+          -- inv t       inv t == t >=0;
+
+    -- Agregar un registro de temperatura a la lista
+    public AgregarRegistroTemperatura: Kelvin * POSIX_Time ==> ()
+    AgregarRegistroTemperatura(temp, tiempo) == 
+    (
+      listaTemperaturas := listaTemperaturas ^ [mk_RegistroTemperaturaTiempo(tiempo, temp)];
+      ClasificarCambioTemperatura();
+    );
       
-    --   cambioTemperatura
-    --   listaTemperaturas
-    --   nuevaTemp
-    -- )
+    -- Calcular el cambio de temperatura entre los dos últimos registros
+    public CalcularCambioTemperatura: () ==> Kelvin
+    CalcularCambioTemperatura() ==
+      if len listaTemperaturas >= 2 then
+        let
+          ultimaTemp = listaTemperaturas(len listaTemperaturas).temperatura,
+          penultimaTemp = listaTemperaturas(len listaTemperaturas - 1).temperatura
+        in
+          return ultimaTemp - penultimaTemp
+      else
+        -- Retornar 0 si no hay suficientes registros para calcular el cambio
+        return 0;
 
-end SensorGeoterm
+    -- Clasificar el cambio de temperatura según los rangos especificados
+    public ClasificarCambioTemperatura: () ==> ()
+    ClasificarCambioTemperatura() ==
+      let cambio = CalcularCambioTemperatura() in
+        if cambio <= 2.0 then
+          cambioTemperatura := <Leve>
+        elseif cambio <= 5.0 then
+          cambioTemperatura := <Moderado>
+        else
+          cambioTemperatura := <Brusco>;
+
+  end SensorGeoterm

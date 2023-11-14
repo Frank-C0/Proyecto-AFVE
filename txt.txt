@@ -1,0 +1,117 @@
+<noterremoto> - <inactivo> - <Leve>         ->      Normal
+<noterremoto> - <inactivo> - <Moderado>         ->      Normal
+<noterremoto> - <inactivo> - <Brusco>           ->      Normal
+<noterremoto> - <pocoActivo> - <Leve>           ->      Normal
+<noterremoto> - <pocoActivo> - <Moderado>           ->      Normal
+<noterremoto> - <pocoActivo> - <Brusco>         ->      Normal
+<noterremoto> - <moderadamenteActivo> - <Leve>          ->      Normal
+<noterremoto> - <moderadamenteActivo> - <Moderado>          ->      Normal
+<noterremoto> - <moderadamenteActivo> - <Brusco>            ->      Normal
+<noterremoto> - <muyActivo> - <Leve>            ->      Precaucion
+<noterremoto> - <muyActivo> - <Moderado>            ->      Precaucion
+<noterremoto> - <muyActivo> - <Brusco>          ->      Precaucion
+
+
+<microTerremotos> - <inactivo> - <Leve>         ->      Normal
+<microTerremotos> - <inactivo> - <Moderado>         ->      Normal
+<microTerremotos> - <inactivo> - <Brusco>           ->      Precaucion
+<microTerremotos> - <pocoActivo> - <Leve>           ->      Precaucion 
+<microTerremotos> - <pocoActivo> - <Moderado>           ->      Precaucion 
+<microTerremotos> - <pocoActivo> - <Brusco>         ->      Precaucion 
+<microTerremotos> - <moderadamenteActivo> - <Leve>      ->      Peligro
+<microTerremotos> - <moderadamenteActivo> - <Moderado>      ->      Peligro
+<microTerremotos> - <moderadamenteActivo> - <Brusco>        ->      Peligro
+<microTerremotos> - <muyActivo> - <Leve>        ->      Evacuacion
+<microTerremotos> - <muyActivo> - <Moderado>        ->      Evacuacion
+<microTerremotos> - <muyActivo> - <Brusco>      ->      Evacuacion
+
+
+<pequenosTerremotos> - <inactivo> - <Leve>      ->      Precaucion
+<pequenosTerremotos> - <inactivo> - <Moderado>      ->      Precaucion
+<pequenosTerremotos> - <inactivo> - <Brusco>        ->      Precaucion
+<pequenosTerremotos> - <pocoActivo> - <Leve>        ->      Precaucion
+<pequenosTerremotos> - <pocoActivo> - <Moderado>        ->      Precaucion
+<pequenosTerremotos> - <pocoActivo> - <Brusco>      ->      Precaucion
+<pequenosTerremotos> - <moderadamenteActivo> - <Leve>       ->  Peligro
+<pequenosTerremotos> - <moderadamenteActivo> - <Moderado>       ->  Peligro
+<pequenosTerremotos> - <moderadamenteActivo> - <Brusco>     ->  Peligro
+<pequenosTerremotos> - <muyActivo> - <Leve>     -->     Evacuacion
+<pequenosTerremotos> - <muyActivo> - <Moderado>     -->     Evacuacion
+<pequenosTerremotos> - <muyActivo> - <Brusco>       -->     Evacuacion
+
+
+<terremotosModerados> - <inactivo> - <Leve>         ->      Precaucion 
+<terremotosModerados> - <inactivo> - <Moderado>         ->      Precaucion
+<terremotosModerados> - <inactivo> - <Brusco>           ->      Peligro
+<terremotosModerados> - <pocoActivo> - <Leve>           ->      Peligro
+<terremotosModerados> - <pocoActivo> - <Moderado>           ->      Peligro
+<terremotosModerados> - <pocoActivo> - <Brusco>         ->      Peligro
+<terremotosModerados> - <moderadamenteActivo> - <Leve>      ->  Peligro
+<terremotosModerados> - <moderadamenteActivo> - <Moderado>      ->  Peligro
+<terremotosModerados> - <moderadamenteActivo> - <Brusco>        ->  Peligro
+<terremotosModerados> - <muyActivo> - <Leve>            ->  Emergencia
+<terremotosModerados> - <muyActivo> - <Moderado>            ->  Emergencia
+<terremotosModerados> - <muyActivo> - <Brusco>          ->  Emergencia
+
+
+<terremotosFuertes> - <inactivo> - <Leve>               ->      Peligro
+<terremotosFuertes> - <inactivo> - <Moderado>               ->      Peligro
+<terremotosFuertes> - <inactivo> - <Brusco>             ->      Peligro
+<terremotosFuertes> - <pocoActivo> - <Leve>             ->      Peligro
+<terremotosFuertes> - <pocoActivo> - <Moderado>             ->      Peligro
+<terremotosFuertes> - <pocoActivo> - <Brusco>               ->      Peligro
+<terremotosFuertes> - <moderadamenteActivo> - <Leve>        -> Evacuacion
+<terremotosFuertes> - <moderadamenteActivo> - <Moderado>        -> Evacuacion
+<terremotosFuertes> - <moderadamenteActivo> - <Brusco>      -> Evacuacion
+<terremotosFuertes> - <muyActivo> - <Leve>      -> Emergencia
+<terremotosFuertes> - <muyActivo> - <Moderado>      -> Emergencia
+<terremotosFuertes> - <muyActivo> - <Brusco>        -> Emergencia
+
+
+<terremotosMayores> - <inactivo> - <Leve>           -> Evacuacion
+<terremotosMayores> - <inactivo> - <Moderado>           -> Evacuacion
+<terremotosMayores> - <inactivo> - <Brusco>         -> Evacuacion
+<terremotosMayores> - <pocoActivo> - <Leve>         -> Evacuacion
+<terremotosMayores> - <pocoActivo> - <Moderado>         -> Evacuacion
+<terremotosMayores> - <pocoActivo> - <Brusco>           -> Evacuacion
+<terremotosMayores> - <moderadamenteActivo> - <Leve>            -> Evacuacion
+<terremotosMayores> - <moderadamenteActivo> - <Moderado>            -> Evacuacion
+<terremotosMayores> - <moderadamenteActivo> - <Brusco>          -> Evacuacion
+<terremotosMayores> - <muyActivo> - <Leve>          -> Emergencia
+<terremotosMayores> - <muyActivo> - <Moderado>          -> Emergencia
+<terremotosMayores> - <muyActivo> - <Brusco>            -> Emergencia
+
+<grandesTerremotos> - <inactivo> - <Leve>           ->  emergencia
+<grandesTerremotos> - <inactivo> - <Moderado>           ->  emergencia
+<grandesTerremotos> - <inactivo> - <Brusco>         ->  emergencia
+<grandesTerremotos> - <pocoActivo> - <Leve>         ->  emergencia
+<grandesTerremotos> - <pocoActivo> - <Moderado>         ->  emergencia
+<grandesTerremotos> - <pocoActivo> - <Brusco>           ->  emergencia
+<grandesTerremotos> - <moderadamenteActivo> - <Leve>            ->  emergencia
+<grandesTerremotos> - <moderadamenteActivo> - <Moderado>            ->  emergencia
+<grandesTerremotos> - <moderadamenteActivo> - <Brusco>          ->  emergencia
+<grandesTerremotos> - <muyActivo> - <Leve>          ->  emergencia
+<grandesTerremotos> - <muyActivo> - <Moderado>          ->  emergencia
+<grandesTerremotos> - <muyActivo> - <Brusco>            ->  emergencia
+
+<terremotosMuyGrandes> - <inactivo> - <Leve>        -> emergencia
+<terremotosMuyGrandes> - <inactivo> - <Moderado>        -> emergencia
+<terremotosMuyGrandes> - <inactivo> - <Brusco>      -> emergencia
+<terremotosMuyGrandes> - <pocoActivo> - <Leve>      -> emergencia
+<terremotosMuyGrandes> - <pocoActivo> - <Moderado>      -> emergencia
+<terremotosMuyGrandes> - <pocoActivo> - <Brusco>        -> emergencia
+<terremotosMuyGrandes> - <moderadamenteActivo> - <Leve>         -> emergencia
+<terremotosMuyGrandes> - <moderadamenteActivo> - <Moderado>         -> emergencia
+<terremotosMuyGrandes> - <moderadamenteActivo> - <Brusco>       -> emergencia
+<terremotosMuyGrandes> - <muyActivo> - <Leve>       -> emergencia
+<terremotosMuyGrandes> - <muyActivo> - <Moderado>       -> emergencia
+<terremotosMuyGrandes> - <muyActivo> - <Brusco>         -> emergencia
+
+
+
+
+create sensorS := new SensorSism(1,100,200,5000,true, 2023,11,13, <pequenosTerremotos>,<inactivo>, 10)
+
+print (sensorS.AgregarMagnitudTiempo(30, mk_Hora(13,11,22)))
+
+

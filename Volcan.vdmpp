@@ -10,14 +10,14 @@ class Volcan
   operations
 
     public Volcan
-      : nat1 * seq of char * seq of SensorGeoterm * seq of SensorSism==> Volcan
-    Volcan(i, n, sensoresGeoterm, sensoresSism)
+      : nat1 * seq of char ==> Volcan
+      Volcan(i, n)
       ==
       (
         id := i;
         nombre := n;
-        listaSensoresGeoterm := sensoresGeoterm;
-        listaSensoresSism := sensoresSism;
+        listaSensoresGeoterm := [];
+        listaSensoresSism := [];
         return self;
       )
       pre i > 0;

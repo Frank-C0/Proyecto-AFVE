@@ -1,0 +1,28 @@
+/**
+  Otro.
+
+  <p>
+  description
+  </p>
+
+  @version
+  @author
+*/
+
+class Otro
+
+types
+
+values
+
+instance variables
+
+operations
+
+-- constructor for Otro
+public Otro: () ==> Otro
+Otro() == ();
+
+functions
+
+end Otro

@@ -2,8 +2,8 @@ FormatVersion:2
 mainW:6,30,1354,702,1
 browserW:0,0,320,400,1
 codeW:200,30,800,400,0
-errorW:350,250,600,200,0
-interpreterW:50,50,800,500,0
+errorW:691,224,600,213,0
+interpreterW:518,31,800,500,1
 logW:300,300,600,150,0
 pogW:80,80,600,420,0
 optionsW:0,0,571,373,0
