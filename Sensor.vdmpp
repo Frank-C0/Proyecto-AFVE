@@ -14,13 +14,12 @@ class Sensor
   instance variables
     public id: nat1;
     private ubicacion: Position;
-    private estaActivo: bool;
+    public estaActivo: bool;
     private fecha: Date;
   
   operations
 
-    public Sensor
-  : nat1 * real * real * real * bool * 
+    public Sensor: nat1 * real * real * real * bool * 
     nat1 * nat1 * nat1 ==> Sensor
   
     Sensor

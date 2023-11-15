@@ -10,7 +10,6 @@ class SensorGeoterm is subclass of Sensor
       tiempo: POSIX_Time
       temperatura: Kelvin
       inv mk_RegistroTemperaturaTiempo(t,m) == t >= 0 and m >= 0;
-
     public Kelvin = real
       inv k == k >= 0;
 
@@ -33,7 +32,7 @@ class SensorGeoterm is subclass of Sensor
         cambioTemperaturaReal := 0;
 
         self.Sensor(i, x, y, z, activo, anio, mes, dia);        
-        return self;
+        -- return self;
       )
       pre i > 0 and anio > 0 and mes > 0 and mes <= 12 and dia > 0 and dia <= 31;
 
@@ -61,7 +60,8 @@ class SensorGeoterm is subclass of Sensor
       listaTemperaturas := listaTemperaturas ^ [mk_RegistroTemperaturaTiempo(tiempo, temp)];
       CalcularCambioTemperatura();
       cambioTemperatura := ClasificarCambioTemperatura(cambioTemperaturaReal);
-    );
+    )
+    pre EstaActivo() = true;
       
     -- Calcular el cambio de temperatura entre los dos últimos registros
     public CalcularCambioTemperatura: () ==> ()

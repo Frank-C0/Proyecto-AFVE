@@ -37,7 +37,7 @@ class SensorSism is subclass of Sensor
       numActividadDia := 0;
       
       self.Sensor(i, x, y, z, activo, anio, mes, dia);
-      return self;
+      -- return self;
     )
     pre i > 0 and anio > 0 and mes > 0 and mes <= 12 and dia > 0 and dia <= 31;
 

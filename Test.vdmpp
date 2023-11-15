@@ -1,661 +1,213 @@
 class Test
 
 instance variables
-
   sensorSism1: SensorSism;
   sensorSism2: SensorSism;
-  magnitudSensorSism: SensorSism`MagnitudSismo;
-  actividadSensorSism: SensorSism`EstadoSism;
+  sensorSismMagnitud: SensorSism`MagnitudSismo;
+  sensorSismactividad: SensorSism`EstadoSism;
 
 
   sensorGeoterm1: SensorGeoterm;
   sensorGeoterm2: SensorGeoterm;
+  sensorGeoterm: SensorGeoterm`CambioTemp;
 
-
+  sensorUbicacion: Sensor`Position;
+  sensorDate: Sensor`Date;
 
   volcan1: Volcan;
+  volcanNombre: seq of char;
+
 
 
   monitor: Monitor;
-  m:SensorGeoterm`CambioTemp;
+  monitorEstadoAlarma: Monitor`EstadoVolcan;
 
   
+  id: nat1;
 
-  operations
+operations
 
-    public Run: () ==> ()
-    Run() ==
-      (
-        initPocoActivo();
-        -- testSensorSism();
-        -- TestSensorGeoTerm();
-        -- TestVolcan();
-        -- TestMonitor();
-        -- Agrega más pruebas según sea necesario
+  public Run: () ==> ()
+  Run() ==
+    (
+      -- initPocoActivo();
+      -- testSensorSism();
+      -- TestSensorGeoTerm();
+      -- TestVolcan();
+      -- TestMonitor();
+      -- Agrega más pruebas según sea necesario
 
-        testGeneral();
-      );
-
-    public initPocoActivo: () ==> ()
-    initPocoActivo() == (
-      sensorSism1 := new SensorSism(1, -16.294444, -71.408889, 5800, true, 2023, 11, 11);
-      sensorSism2 := new SensorSism(1, -16.290000, -71.408600, 5793, true, 2023, 11, 11);
-      sensorGeoterm1 := new SensorGeoterm(2, -16.294444, -71.408889, 5802, true, 2023, 11, 11);
-      sensorGeoterm2 := new SensorGeoterm(2, -16.270000, -71.409000, 5806, true, 2023, 11, 11);
-      volcan1 := new Volcan(1, "Misti");
-      -- monitor := new Monitor(1, volcan1);
-
-      volcan1.AgregarSensorGeoterm(sensorGeoterm1);
-      volcan1.AgregarSensorGeoterm(sensorGeoterm2);
-      volcan1.AgregarSensorSism(sensorSism1);
-      volcan1.AgregarSensorSism(sensorSism2);
-
-      
-      monitor := new Monitor(1, volcan1);
-
-
-      sensorSism1.AgregarMagnitudTiempo(0, 0);
-      sensorSism2.AgregarMagnitudTiempo(0, 0);
-      sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
+      testGeneral();
     );
-    public initModeradamenteActivo: () ==> ()
-    initModeradamenteActivo() == (
-      sensorSism1 := new SensorSism(1, -16.294444, -71.408889, 5800, true, 2023, 11, 11);
-      sensorSism2 := new SensorSism(1, -16.290000, -71.408600, 5793, true, 2023, 11, 11);
-      sensorGeoterm1 := new SensorGeoterm(2, -16.294444, -71.408889, 5802, true, 2023, 11, 11);
-      sensorGeoterm2 := new SensorGeoterm(2, -16.270000, -71.409000, 5806, true, 2023, 11, 11);
-      volcan1 := new Volcan(1, "Misti");
 
-      volcan1.AgregarSensorGeoterm(sensorGeoterm1);
-      volcan1.AgregarSensorGeoterm(sensorGeoterm2);
-      volcan1.AgregarSensorSism(sensorSism1);
-      volcan1.AgregarSensorSism(sensorSism2);
+  public initPocoActivo: () ==> ()
+  initPocoActivo() == (
+    sensorSism1 := new SensorSism(1, -16.294444, -71.408889, 5800, true, 2023, 11, 11);
+    sensorSism2 := new SensorSism(1, -16.290000, -71.408600, 5793, true, 2023, 11, 11);
+    sensorGeoterm1 := new SensorGeoterm(2, -16.294444, -71.408889, 5802, true, 2023, 11, 11);
+    sensorGeoterm2 := new SensorGeoterm(2, -16.270000, -71.409000, 5806, true, 2023, 11, 11);
+    volcan1 := new Volcan(1, "Misti");
 
+    volcan1.AgregarSensorGeoterm(sensorGeoterm1);
+    volcan1.AgregarSensorGeoterm(sensorGeoterm2);
+    volcan1.AgregarSensorSism(sensorSism1);
+    volcan1.AgregarSensorSism(sensorSism2);
 
-      monitor := new Monitor(1, volcan1);
+    monitor := new Monitor(1, volcan1);
 
+    sensorSism1.AgregarMagnitudTiempo(0, 0);
+    sensorSism2.AgregarMagnitudTiempo(0, 0);
+    sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
+    sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
+  );
+  public initMuyActivo: () ==> ()
+  initMuyActivo() == (
+    sensorSism1 := new SensorSism(1, -16.294444, -71.408889, 5800, true, 2023, 11, 11);
+    sensorSism2 := new SensorSism(1, -16.290000, -71.408600, 5793, true, 2023, 11, 11);
+    sensorGeoterm1 := new SensorGeoterm(2, -16.294444, -71.408889, 5802, true, 2023, 11, 11);
+    sensorGeoterm2 := new SensorGeoterm(2, -16.270000, -71.409000, 5806, true, 2023, 11, 11);
+    volcan1 := new Volcan(1, "Misti");
+    
 
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism1.AgregarMagnitudTiempo(3, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(3, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
-    );
-    public initMuyActivo: () ==> ()
-    initMuyActivo() == (
-      sensorSism1 := new SensorSism(1, -16.294444, -71.408889, 5800, true, 2023, 11, 11);
-      sensorSism2 := new SensorSism(1, -16.290000, -71.408600, 5793, true, 2023, 11, 11);
-      sensorGeoterm1 := new SensorGeoterm(2, -16.294444, -71.408889, 5802, true, 2023, 11, 11);
-      sensorGeoterm2 := new SensorGeoterm(2, -16.270000, -71.409000, 5806, true, 2023, 11, 11);
-      volcan1 := new Volcan(1, "Misti");
-      
+    volcan1.AgregarSensorGeoterm(sensorGeoterm1);
+    volcan1.AgregarSensorGeoterm(sensorGeoterm2);
+    volcan1.AgregarSensorSism(sensorSism1);
+    volcan1.AgregarSensorSism(sensorSism2);
 
-      volcan1.AgregarSensorGeoterm(sensorGeoterm1);
-      volcan1.AgregarSensorGeoterm(sensorGeoterm2);
-      volcan1.AgregarSensorSism(sensorSism1);
-      volcan1.AgregarSensorSism(sensorSism2);
+    monitor := new Monitor(1, volcan1);
 
-      monitor := new Monitor(1, volcan1);
+    sensorSism1.AgregarMagnitudTiempo(4.1, 86400000000);
+    sensorSism1.AgregarMagnitudTiempo(5.1, 86400000000);
+    sensorSism1.AgregarMagnitudTiempo(6.1, 86400000000);
+    sensorSism1.AgregarMagnitudTiempo(7.1, 86400000000);
+    sensorSism1.AgregarMagnitudTiempo(1, 86400000000);
+    sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
+    
+    sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
 
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism1.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4, 86400000000);
-
-      sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
-    );
-    private testGeneral: () ==> ()
-    testGeneral() == (
---       -- monitor.ActualizarEstado();
--- -- 373
-
---       -- if magnitudSism = <terremotosMuyGrandes> then
---       --   return <Emergencia>
---       sensorSism1.AgregarMagnitudTiempo(8.6, 0);
---       sensorSism2.AgregarMagnitudTiempo(8.5, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(295, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
---       -- elseif magnitudSism = <grandesTerremotos> then
---       --   return <Emergencia>
---       sensorSism1.AgregarMagnitudTiempo(7.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(7.7, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(305, 0);
---       monitor.ActualizarEstado();
---       -- elseif magnitudSism = <terremotosMayores> then
---       --   if actividad = <muyActivo> then
---       --     return <Emergencia>
---       sensorSism1.AgregarMagnitudTiempo(6.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(6.6, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(305, 0);
---       monitor.ActualizarEstado();
---       --   else 
---       --     return <Evacuacion>
-      
---       sensorSism1.AgregarMagnitudTiempo(5.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(5.6, 0);
---       monitor.ActualizarEstado();
---       -- elseif magnitudSism = <terremotosFuertes> then
-      
---       sensorSism1.AgregarMagnitudTiempo(4.4, 0);
---       sensorSism2.AgregarMagnitudTiempo(4.5, 0);
---       monitor.ActualizarEstado();
---       --   if actividad = <muyActivo> then
---       --     return <Emergencia>
---       --   elseif actividad = <moderadamenteActivo> then
---       --     return <Evacuacion>
---       --   else
---       --     return <Peligro>
---       -- elseif magnitudSism = <terremotosModerados> then
---       sensorSism1.AgregarMagnitudTiempo(3.4, 0);
---       sensorSism2.AgregarMagnitudTiempo(3.6, 0);
---       monitor.ActualizarEstado();
---       --   if actividad = <muyActivo> then
---       --     return <Emergencia>
---       --   elseif actividad = <moderadamenteActivo> or actividad = <pocoActivo> then
---       --     return <Peligro>
---       --   else
---       --     if cambioTemperatura = <Brusco> then
---       --       return <Peligro>
---       --     else
---       --       return <Precaucion> 
---       -- elseif magnitudSism = <pequenosTerremotos> then
---       sensorSism1.AgregarMagnitudTiempo(2.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(2.7, 0);
---       monitor.ActualizarEstado(); 
---       --   if actividad = <muyActivo> then
---       --     return <Evacuacion>
---       --   elseif actividad = <moderadamenteActivo> then
---       --     return <Peligro>
---       --   else
---       --     return <Precaucion>
---       -- elseif magnitudSism = <microTerremotos> then
-      
---       sensorSism1.AgregarMagnitudTiempo(1.2, 0);
---       sensorSism2.AgregarMagnitudTiempo(1.3, 0);
---       monitor.ActualizarEstado();
---       --   if actividad = <muyActivo> then
---       --     return <Evacuacion>
---       --   elseif actividad = <moderadamenteActivo> then
---       --     return <Peligro>
---       --   elseif actividad = <pocoActivo> then
---       --     return <Precaucion>
---       --   else
---       --     if cambioTemperatura = <Brusco> then
---       --       return <Precaucion>
---       --     else
---       --       return <Normal>
---       -- else
-      
---       sensorSism1.AgregarMagnitudTiempo(0.2, 0);
---       sensorSism2.AgregarMagnitudTiempo(0.1, 0);
---       monitor.ActualizarEstado();
---       --   if actividad = <muyActivo> then
---       --     return <Precaucion>
---         -- else
---         --   return <Normal>
-
-      
-
-
---       sensorSism1.AgregarMagnitudTiempo(0.1, 0);
---       sensorSism2.AgregarMagnitudTiempo(0.2, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(295, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
-
---------------------------------
-
-
---       elseif magnitudSism = <terremotosMayores> then
---         else 
---           return <Evacuacion>
---       initPocoActivo();
---       sensorSism1.AgregarMagnitudTiempo(6.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(6.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(295, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
--- --       elseif magnitudSism = <terremotosFuertes> then
--- --         
--- --         else
--- --           return <Peligro>
---       initPocoActivo();
---       sensorSism1.AgregarMagnitudTiempo(5.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(5.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(295, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
--- --       elseif magnitudSism = <terremotosModerados> then
--- --         
--- --         else
--- --           if cambioTemperatura = <Brusco> then
--- --             return <Peligro>
---       initPocoActivo();
---       sensorSism1.AgregarMagnitudTiempo(4.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(4.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(475, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(400, 0);
---       monitor.ActualizarEstado();
--- --           else
--- --             return <Precaucion> 
---       initPocoActivo();
---       sensorSism1.AgregarMagnitudTiempo(4.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(4.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
--- --       elseif magnitudSism = <pequenosTerremotos> then 
--- --         
--- --         else
--- --           return <Precaucion>
---       initPocoActivo();
---       sensorSism1.AgregarMagnitudTiempo(3.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(3.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
--- --       elseif magnitudSism = <microTerremotos> then
--- --         
--- --         elseif actividad = <pocoActivo> then
--- --           return <Precaucion>
---       initPocoActivo();
---       sensorSism1.AgregarMagnitudTiempo(2.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(2.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
--- -- --         else
--- -- --           if cambioTemperatura = <Brusco> then
--- -- --             return <Precaucion>
--- --       initPocoActivo();
--- --       sensorSism1.AgregarMagnitudTiempo(0.2, 0);
--- --       sensorSism2.AgregarMagnitudTiempo(0.2, 0);
--- --       sensorGeoterm1.AgregarRegistroTemperatura(400, 0);
--- --       sensorGeoterm2.AgregarRegistroTemperatura(400, 0);
--- --       monitor.ActualizarEstado();
--- --           else
--- --             return <Normal>
--- --       else
--- --         if actividad = <muyActivo> then
--- --           return <Precaucion>
--- --         else
--- --           return <Normal>
---       initPocoActivo();
---       sensorSism1.AgregarMagnitudTiempo(0.3, 0);
---       sensorSism2.AgregarMagnitudTiempo(0.1, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
-
-
-
-
-
--- --       elseif magnitudSism = <terremotosFuertes> then
--- --         elseif actividad = <moderadamenteActivo> then
--- --           return <Evacuacion>
---       initModeradamenteActivo();
---       sensorSism1.AgregarMagnitudTiempo(5.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(5.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
--- --       elseif magnitudSism = <terremotosModerados> then
--- --         elseif actividad = <moderadamenteActivo> or actividad = <pocoActivo> then
--- --           return <Peligro>
-
---       -- initModeradamenteActivo();
---       sensorSism1.AgregarMagnitudTiempo(4.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(4.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
--- --       elseif magnitudSism = <pequenosTerremotos> then 
--- --         elseif actividad = <moderadamenteActivo> then
--- --           return <Peligro>
---       -- initModeradamenteActivo();
---       sensorSism1.AgregarMagnitudTiempo(3.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(3.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
--- --       elseif magnitudSism = <microTerremotos> then
--- --         elseif actividad = <moderadamenteActivo> then
--- --           return <Peligro>
-      
---       -- initModeradamenteActivo();
---       sensorSism1.AgregarMagnitudTiempo(2.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(2.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
-
-
-
-
-
-
---       sensorSism1.AgregarMagnitudTiempo(8.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(8.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
---       sensorSism1.AgregarMagnitudTiempo(7.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(7.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
-      
-
-
--- --       elseif magnitudSism = <terremotosMayores> then
--- --         if actividad = <muyActivo> then
---       initMuyActivo();
---       sensorSism1.AgregarMagnitudTiempo(6.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(6.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
--- --       elseif magnitudSism = <terremotosFuertes> then
--- --         if actividad = <muyActivo> then
-
---       sensorSism1.AgregarMagnitudTiempo(5.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(5.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
--- --       elseif magnitudSism = <terremotosModerados> then
--- --         if actividad = <muyActivo> then
-
---       sensorSism1.AgregarMagnitudTiempo(4.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(4.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
--- --       elseif magnitudSism = <pequenosTerremotos> then 
--- --         if actividad = <muyActivo> then
-
---       sensorSism1.AgregarMagnitudTiempo(3.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(3.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
-
--- --       elseif magnitudSism = <microTerremotos> then
--- --         if actividad = <muyActivo> then
-
---       sensorSism1.AgregarMagnitudTiempo(2.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(2.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
--- --       else
--- --         if actividad = <muyActivo> then
-
---       sensorSism1.AgregarMagnitudTiempo(1.5, 0);
---       sensorSism2.AgregarMagnitudTiempo(1.4, 0);
---       sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
---       sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
---       monitor.ActualizarEstado();
-
-
----------------------------------------
---       if magnitudSism = <terremotosMuyGrandes> then
---         return <Emergencia>
---       elseif magnitudSism = <grandesTerremotos> then
---         return <Emergencia>
-
-
-      -- sensorSism1.AgregarMagnitudTiempo(0.1, 0);
-
-
-
-
-
-      -- if magnitudSism = <terremotosMuyGrandes> then
-      -- --   return <Emergencia>
-      -- initPocoActivo();
-      -- sensorSism1.AgregarMagnitudTiempo(8.4, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(8.5, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- -- elseif magnitudSism = <grandesTerremotos> then
-      -- --   return <Emergencia>
-      -- initPocoActivo();
-      -- sensorSism1.AgregarMagnitudTiempo(7.5, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(7.7, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- -- elseif magnitudSism = <terremotosMayores> then
-      -- --   if actividad = <muyActivo> then
-      -- --     return <Emergencia>
-      -- initMuyActivo();
-      -- sensorSism1.AgregarMagnitudTiempo(6.5, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(6.4, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- --   else 
-      -- --     return <Evacuacion>
-      -- initPocoActivo();
-      -- sensorSism1.AgregarMagnitudTiempo(5.5, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(5.4, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- -- elseif magnitudSism = <terremotosFuertes> then
-      -- --   if actividad = <muyActivo> then
-      -- --     return <Emergencia>
-      -- initMuyActivo();
-      -- sensorSism1.AgregarMagnitudTiempo(5.5, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(5.4, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- --   elseif actividad = <moderadamenteActivo> then
-      -- --     return <Evacuacion>
-      -- initModeradamenteActivo();
-      -- sensorSism1.AgregarMagnitudTiempo(5.5, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(5.4, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- --   else
-      -- --     return <Peligro>
-      -- initPocoActivo();
-      -- sensorSism1.AgregarMagnitudTiempo(5.5, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(5.4, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- -- elseif magnitudSism = <terremotosModerados> then
-      -- --   if actividad = <muyActivo> then
-      -- --     return <Emergencia>
-      -- initMuyActivo();
-      -- sensorSism1.AgregarMagnitudTiempo(4.5, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(4.4, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- --   elseif actividad = <moderadamenteActivo> or actividad = <pocoActivo> then
-      -- --     return <Peligro>
-      -- initModeradamenteActivo();
-      -- sensorSism1.AgregarMagnitudTiempo(4.5, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(4.4, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- --   else
-      -- --     if cambioTemperatura = <Brusco> then
-      -- --       return <Peligro>
-      -- initPocoActivo(); 
-      -- sensorSism1.AgregarMagnitudTiempo(4.5, 0);
-      -- sensorSism2.AgregarMagnitudTiempo(4.4, 0);
-      -- sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
-      -- sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
-      -- monitor.ActualizarEstado();
-      -- --     else
-      --       return <Precaucion> 
-      -- elseif magnitudSism = <pequenosTerremotos> then 
-      --   if actividad = <muyActivo> then
-      --     return <Evacuacion>
-      --   elseif actividad = <moderadamenteActivo> then
-      --     return <Peligro>
-      --   else
-      --     return <Precaucion>
-      -- elseif magnitudSism = <microTerremotos> then
-      --   if actividad = <muyActivo> then
-      --     return <Evacuacion>
-      --   elseif actividad = <moderadamenteActivo> then
-      --     return <Peligro>
-      --   -- else actividad = <pocoActivo> then
-      --   else 
-      --     return <Precaucion>
-      --   -- else
-      --   --   if cambioTemperatura = <Brusco> then
-      --   --     return <Precaucion>
-      --   --   else
-      --   --     return <Normal>
-      -- else
-      --   if actividad = <muyActivo> then
-      --     return <Precaucion>
-      --   else
-      --     return <Normal>
-
-
+    sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
+  );
+  private testGeneral: () ==> ()
+  testGeneral() == (
 -----------+++++++++++++++++++++++++++++++++++++
-    -- if magnitudSism = <grandesTerremotos> or
-    --    magnitudSism = <terremotosMuyGrandes> or
-    --    magnitudSism = <terremotosMayores> or
-    --    magnitudSism = <terremotosFuertes>
-    -- then
-    --   return <Emergencia>
-    
-      initMuyActivo();
-      sensorSism1.AgregarMagnitudTiempo(8.5, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(8.4, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
-      monitor.ActualizarEstado();
-    -- elseif cambioTemperatura = <Brusco> then
-    --   if actividad = <muyActivo> then
-    --     if magnitudSism = <noterremoto> then
-    --       return <Peligro>
-    
-      initMuyActivo();
-      sensorSism1.AgregarMagnitudTiempo(0.2, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(0.3, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(400, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(400, 86400000000);
-      monitor.ActualizarEstado();
-    --     else
-    --       return <Evacuacion>
-    
-      initMuyActivo();
-      sensorSism1.AgregarMagnitudTiempo(3.5, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(3.4, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(400, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(400, 86400000000);
-      monitor.ActualizarEstado();
-    --   elseif magnitudSism = <terremotosModerados> then
-    --     return <Evacuacion>
-      initPocoActivo();
-      sensorSism1.AgregarMagnitudTiempo(4.5, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4.4, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(400, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(400, 86400000000);
-      monitor.ActualizarEstado();
-    --   else
-    --     return <Peligro>
-      initPocoActivo();
-      sensorSism1.AgregarMagnitudTiempo(3.5, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(3.4, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(400, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(400, 86400000000);
-      monitor.ActualizarEstado();
-    -- elseif actividad = <muyActivo> then
-    --   if magnitudSism = <terremotosModerados> then
-    --     return <Evacuacion>
-      initMuyActivo();
-      sensorSism1.AgregarMagnitudTiempo(4.5, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4.4, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
-      monitor.ActualizarEstado();
-    --   else
-    --     return <Peligro>
-      initMuyActivo();
-      sensorSism1.AgregarMagnitudTiempo(3.5, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(3.4, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
-      monitor.ActualizarEstado();
-    -- elseif magnitudSism = <terremotosModerados> then
-    --   return <Peligro>
-    
-      initPocoActivo();
-      sensorSism1.AgregarMagnitudTiempo(4.5, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(4.4, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
-      monitor.ActualizarEstado();
-    -- elseif magnitudSism = <noterremoto> then
-    --   return <Normal>
-      initPocoActivo();
-      sensorSism1.AgregarMagnitudTiempo(0.3, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(0.2, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
-      monitor.ActualizarEstado();
-    -- else
-    --   return <Precaucion>
-    
-      initPocoActivo();
-      sensorSism1.AgregarMagnitudTiempo(3.5, 86400000000);
-      sensorSism2.AgregarMagnitudTiempo(3.4, 86400000000);
-      sensorGeoterm1.AgregarRegistroTemperatura(301, 86400000000);
-      sensorGeoterm2.AgregarRegistroTemperatura(302, 86400000000);
-      monitor.ActualizarEstado();
+  -- if magnitudSism = <grandesTerremotos> or
+  --    magnitudSism = <terremotosMuyGrandes> or
+  --    magnitudSism = <terremotosMayores> or
+  --    magnitudSism = <terremotosFuertes>
+  -- then
+  --   return <Emergencia>
+  
+    initMuyActivo();
+    sensorSism1.AgregarMagnitudTiempo(8.5, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(8.4, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(303, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
+    monitor.ActualizarEstado();
+  -- elseif cambioTemperatura = <Brusco> then
+  --   if actividad = <muyActivo> then
+  --     if magnitudSism = <noterremoto> then
+  --       return <Peligro>
+  
+    initMuyActivo();
+    sensorSism1.AgregarMagnitudTiempo(0.2, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(0.3, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(400, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(400, 86400000000);
+    monitor.ActualizarEstado();
+  --     else
+  --       return <Evacuacion>
+  
+    initMuyActivo();
+    sensorSism1.AgregarMagnitudTiempo(3.5, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(3.4, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(400, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(400, 86400000000);
+    monitor.ActualizarEstado();
+  --   elseif magnitudSism = <terremotosModerados> then
+  --     return <Evacuacion>
+    initPocoActivo();
+    sensorSism1.AgregarMagnitudTiempo(4.5, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4.4, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(400, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(400, 86400000000);
+    monitor.ActualizarEstado();
+  --   else
+  --     return <Peligro>
+    initPocoActivo();
+    sensorSism1.AgregarMagnitudTiempo(3.5, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(3.4, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(400, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(400, 86400000000);
+    monitor.ActualizarEstado();
+  -- elseif actividad = <muyActivo> then
+  --   if magnitudSism = <terremotosModerados> then
+  --     return <Evacuacion>
+    initMuyActivo();
+    sensorSism1.AgregarMagnitudTiempo(4.5, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4.4, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
+    monitor.ActualizarEstado();
+  --   else
+  --     return <Peligro>
+    initMuyActivo();
+    sensorSism1.AgregarMagnitudTiempo(3.5, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(3.4, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
+    monitor.ActualizarEstado();
+  -- elseif magnitudSism = <terremotosModerados> then
+  --   return <Peligro>
+  
+    initPocoActivo();
+    sensorSism1.AgregarMagnitudTiempo(4.5, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(4.4, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
+    monitor.ActualizarEstado();
+  -- elseif magnitudSism = <noterremoto> then
+  --   return <Normal>
+    initPocoActivo();
+    sensorSism1.AgregarMagnitudTiempo(0.3, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(0.2, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
+    monitor.ActualizarEstado();
+  -- else
+  --   return <Precaucion>
+  
+    initPocoActivo();
+    sensorSism1.AgregarMagnitudTiempo(3.5, 86400000000);
+    sensorSism2.AgregarMagnitudTiempo(3.4, 86400000000);
+    sensorGeoterm1.AgregarRegistroTemperatura(301, 86400000000);
+    sensorGeoterm2.AgregarRegistroTemperatura(302, 86400000000);
+    monitor.ActualizarEstado();
 
 
-    );
+    id:= monitor.GetID();
+    sensorSismMagnitud:= sensorSism1.GetEstadoActual();
+    sensorSismactividad:= sensorSism1.GetActividad();
+    sensorGeoterm:= sensorGeoterm1.GetCambioTemperatura();
+    volcanNombre:= volcan1.GetNombre();
+    monitorEstadoAlarma:= monitor.GetAlarma();
+    id:= sensorSism2.GetID();
+    sensorUbicacion:= sensorSism2.GetUbicacion();
+    sensorDate:= sensorSism2.GetDate();
+    volcan1:= monitor.GetVolcan();
+    id:= volcan1.GetID();
+
+  );
 
     -- private testSensorSism: () ==> ()
     -- testSensorSism() ==

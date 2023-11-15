@@ -30,9 +30,9 @@ class Monitor
         -- EstadosSensoresToEstado := estadosSensores;
         alarma := <Normal>;
         return self;
-      );
+      )
 
-      -- pre i > 0 and v.GetListaSensoresGeoterm() <> [] and v.GetListaSensoresSism() <> [];
+      pre i > 0 and v.GetListaSensoresGeoterm() <> [] and v.GetListaSensoresSism() <> [];
 
     -- Obtener el ID del monitor
     public GetID: () ==> nat1
@@ -51,7 +51,7 @@ class Monitor
     -- GetEstadosSensores() == return EstadosSensoresToEstado(alarma);
 
     --  Obtener la lectura más alta de los sensores geotérmicos
-    public ObtenerMaximaLecturaGeotermica: () ==> SensorGeoterm`CambioTemp
+    private ObtenerMaximaLecturaGeotermica: () ==> SensorGeoterm`CambioTemp
     ObtenerMaximaLecturaGeotermica() ==
       (
         -- if len volcan.GetListaSensoresGeoterm() = 0 then
@@ -69,7 +69,7 @@ class Monitor
         )
       );
 
-    public ObtenerMaximaLecturaMagnitud: () ==> SensorSism`MagnitudSismo
+    private ObtenerMaximaLecturaMagnitud: () ==> SensorSism`MagnitudSismo
     ObtenerMaximaLecturaMagnitud() ==
       (
         let listaSensoresSism: seq of SensorSism= volcan.GetListaSensoresSism() in
@@ -84,7 +84,7 @@ class Monitor
         )
       );
 
-    public ObtenerMaximaLecturaActividad: () ==> SensorSism`EstadoSism
+    private ObtenerMaximaLecturaActividad: () ==> SensorSism`EstadoSism
     ObtenerMaximaLecturaActividad() ==
       (
         let listaSensoresSism: seq of SensorSism= volcan.GetListaSensoresSism() in
@@ -167,7 +167,7 @@ class Monitor
       
     -- );
     
-public mapEstado: SensorSism`MagnitudSismo * SensorSism`EstadoSism * SensorGeoterm`CambioTemp ==> EstadoVolcan
+private mapEstado: SensorSism`MagnitudSismo * SensorSism`EstadoSism * SensorGeoterm`CambioTemp ==> EstadoVolcan
 mapEstado(magnitudSism, actividad, cambioTemperatura) ==
   (
     if magnitudSism = <grandesTerremotos> or
