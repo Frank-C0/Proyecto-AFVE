@@ -9,9 +9,6 @@ class Monitor
     public EstadoVolcan = 
       <Normal> | <Precaucion> | <Peligro> | <Evacuacion> | <Emergencia>;
 
-
-    -- public
-
   instance variables
     private id: nat1;
     private volcan: Volcan;
@@ -22,25 +19,20 @@ class Monitor
     
   operations
 
-    public Monitor: () ==> Monitor
-    Monitor()
-      ==
-      (
-        return self;
-      );
-
     public Monitor
       : nat1 * Volcan ==> Monitor
     Monitor(i, v)
       ==
       (
         id := i;
+        
         volcan := v;
         -- EstadosSensoresToEstado := estadosSensores;
         alarma := <Normal>;
         return self;
-      )
-      pre i > 0;
+      );
+
+      -- pre i > 0 and v.GetListaSensoresGeoterm() <> [] and v.GetListaSensoresSism() <> [];
 
     -- Obtener el ID del monitor
     public GetID: () ==> nat1
@@ -55,79 +47,157 @@ class Monitor
     GetAlarma() == return alarma;
 
     -- Obtener el estado de los sensores sísmicos asociados al estado de alarma
-    public GetEstadosSensores: () ==> EstadosSensoresSism
-    GetEstadosSensores() == return EstadosSensoresToEstado(alarma);
+    -- public GetEstadosSensores: () ==> EstadosSensoresSism
+    -- GetEstadosSensores() == return EstadosSensoresToEstado(alarma);
 
-     -- Obtener la lectura más alta de los sensores geotérmicos
-    -- public ObtenerMaximaLecturaGeotermica: () ==> real
-    -- ObtenerMaximaLecturaGeotermica() ==
-    --   (
-    --     if len volcan.GetListaSensoresGeoterm() = 0 then
-    --       return 0
-    --     else
-    --       dcl maxLectura: real := (volcan.GetListaSensoresGeoterm())(1).GetNuevaTemp(); -- Supongamos que GetNuevaTemp devuelve la temperatura
-    --       for sensor in sensoresGeotermicos do
-    --         if sensor.GetNuevaTemp() > maxLectura then
-    --           maxLectura := sensor.GetNuevaTemp();
-    --       end for;
-    --       return maxLectura;
-    --     end if;
-    --   );
+    --  Obtener la lectura más alta de los sensores geotérmicos
+    public ObtenerMaximaLecturaGeotermica: () ==> SensorGeoterm`CambioTemp
+    ObtenerMaximaLecturaGeotermica() ==
+      (
+        -- if len volcan.GetListaSensoresGeoterm() = 0 then
+        --   return SensorGeoterm`ClasificarCambioTemperatura(
+        -- else
+        let listaSensoresGeoterm: seq of SensorGeoterm = volcan.GetListaSensoresGeoterm() in
+        (
+          dcl maxLecturaSensor: real := listaSensoresGeoterm(1).GetUltimoCambioTemperatura(); -- Supongamos que GetNuevaTemp devuelve la temperatura
+          
+          for sensorGeotermico in listaSensoresGeoterm do
+            if sensorGeotermico.GetUltimoCambioTemperatura() > maxLecturaSensor then
+              maxLecturaSensor := sensorGeotermico.GetUltimoCambioTemperatura();
+          
+          return SensorGeoterm`ClasificarCambioTemperatura(maxLecturaSensor);
+        )
+      );
 
-    public mapEstado: SensorSism`MagnitudSismo * SensorSism`EstadoSism * SensorGeoterm`CambioTemp ==> EstadoVolcan
-    mapEstado(magnitudSism, actividad, cambioTemperatura) == (
-      if magnitudSism = <terremotosMuyGrandes> then
-      return <Emergencia>
-      elseif magnitudSism = <grandesTerremotos> then
-      return <Emergencia>
-      elseif magnitudSism = <terremotosMayores> then
-        if actividad = <muyActivo> then
-        return <Emergencia>
-        else 
-        return <Evacuacion>
-      elseif magnitudSism = <terremotosFuertes> then
-        if actividad = <muyActivo> then
-        return <Emergencia>
-        elseif actividad = <moderadamenteActivo> then
-        return <Evacuacion>
-        else
-        return <Peligro>
-      elseif magnitudSism = <terremotosModerados> then
-        if actividad = <muyActivo> then
-        return <Emergencia>
-        elseif actividad = <moderadamenteActivo> or actividad = <pocoActivo> then
-        return <Peligro>
-        else
-          if cambioTemperatura = <Brusco> then
-          return <Peligro>
-          else
-          return <Precaucion> 
-      elseif magnitudSism = <pequenosTerremotos> then 
-        if actividad = <muyActivo> then
-        return <Evacuacion>
-        elseif actividad = <moderadamenteActivo> then
-        return <Peligro>
-        else
-        return <Precaucion>
-      elseif magnitudSism = <microTerremotos> then
-        if actividad = <muyActivo> then
-        return <Evacuacion>
-        elseif actividad = <moderadamenteActivo> then
-        return <Peligro>
-        elseif actividad = <pocoActivo> then
-        return <Precaucion>
-        else
-          if cambioTemperatura = <Brusco> then
-          return <Precaucion>
-          else
-          return <Normal>
-      else
-        if actividad = <muyActivo> then
-        return <Precaucion>
-        else
-        return <Normal>
+    public ObtenerMaximaLecturaMagnitud: () ==> SensorSism`MagnitudSismo
+    ObtenerMaximaLecturaMagnitud() ==
+      (
+        let listaSensoresSism: seq of SensorSism= volcan.GetListaSensoresSism() in
+        (
+          dcl maxLecturaSensor: real := listaSensoresSism(1).GetMagnitudActual();
+          
+          for sensorSism in listaSensoresSism do
+            if sensorSism.GetMagnitudActual() > maxLecturaSensor then
+              maxLecturaSensor := sensorSism.GetMagnitudActual();
+          
+          return SensorSism`ClasificarMagnitudSismo(maxLecturaSensor);
+        )
+      );
+
+    public ObtenerMaximaLecturaActividad: () ==> SensorSism`EstadoSism
+    ObtenerMaximaLecturaActividad() ==
+      (
+        let listaSensoresSism: seq of SensorSism= volcan.GetListaSensoresSism() in
+        (
+          dcl maxLecturaSensor: real := listaSensoresSism(1).GetNumActividad(); 
+          
+          for sensorSism in listaSensoresSism do
+            if sensorSism.GetNumActividad() > maxLecturaSensor then
+              maxLecturaSensor := sensorSism.GetNumActividad();
+          
+          return SensorSism`ClasificarActividadSismica(maxLecturaSensor);
+        )
+      );
+      
+    public ActualizarEstado: () ==> ()
+    ActualizarEstado() == (
+      alarma := mapEstado(
+        ObtenerMaximaLecturaMagnitud(),
+        ObtenerMaximaLecturaActividad(),
+        ObtenerMaximaLecturaGeotermica()
+        );
     );
-  
+
+
+    -- public mapEstado: SensorSism`MagnitudSismo * SensorSism`EstadoSism * SensorGeoterm`CambioTemp ==> EstadoVolcan
+    -- mapEstado(magnitudSism, actividad, cambioTemperatura) == (
+    --   if magnitudSism = <terremotosMuyGrandes> then
+    --     return <Emergencia>
+    --   elseif magnitudSism = <grandesTerremotos> then
+    --     return <Emergencia>
+    --   elseif magnitudSism = <terremotosMayores> then
+    --     if actividad = <muyActivo> then
+    --       return <Emergencia>
+    --     else 
+    --       return <Evacuacion>
+    --   elseif magnitudSism = <terremotosFuertes> then
+    --     if actividad = <muyActivo> then
+    --       return <Emergencia>
+    --     elseif actividad = <moderadamenteActivo> then
+    --       return <Evacuacion>
+    --     else
+    --       return <Peligro>
+    --   elseif magnitudSism = <terremotosModerados> then
+    --     if actividad = <muyActivo> then
+    --       return <Emergencia>
+    --     elseif actividad = <moderadamenteActivo> or actividad = <pocoActivo> then
+    --       return <Peligro>
+    --     else
+    --       if cambioTemperatura = <Brusco> then
+    --         return <Peligro>
+    --       else
+    --         return <Precaucion> 
+    --   elseif magnitudSism = <pequenosTerremotos> then 
+    --     if actividad = <muyActivo> then
+    --       return <Evacuacion>
+    --     elseif actividad = <moderadamenteActivo> then
+    --       return <Peligro>
+    --     else
+    --       return <Precaucion>
+    --   elseif magnitudSism = <microTerremotos> then
+    --     if actividad = <muyActivo> then
+    --       return <Evacuacion>
+    --     elseif actividad = <moderadamenteActivo> then
+    --       return <Peligro>
+    --     -- else actividad = <pocoActivo> then
+    --     else 
+    --       return <Precaucion>
+    --     -- else
+    --     --   if cambioTemperatura = <Brusco> then
+    --     --     return <Precaucion>
+    --     --   else
+    --     --     return <Normal>
+    --   else
+    --     if actividad = <muyActivo> then
+    --       return <Precaucion>
+    --     else
+    --       return <Normal>
+
+
+      
+    -- );
+    
+public mapEstado: SensorSism`MagnitudSismo * SensorSism`EstadoSism * SensorGeoterm`CambioTemp ==> EstadoVolcan
+mapEstado(magnitudSism, actividad, cambioTemperatura) ==
+  (
+    if magnitudSism = <grandesTerremotos> or
+       magnitudSism = <terremotosMuyGrandes> or
+       magnitudSism = <terremotosMayores> or
+       magnitudSism = <terremotosFuertes>
+    then
+      return <Emergencia>
+    elseif cambioTemperatura = <Brusco> then
+      if actividad = <muyActivo> then
+        if magnitudSism = <noterremoto> then
+          return <Peligro>
+        else
+          return <Evacuacion>
+      elseif magnitudSism = <terremotosModerados> then
+        return <Evacuacion>
+      else
+        return <Peligro>
+    elseif actividad = <muyActivo> then
+      if magnitudSism = <terremotosModerados> then
+        return <Evacuacion>
+      else
+        return <Peligro>
+    elseif magnitudSism = <terremotosModerados> then
+      return <Peligro>
+    elseif magnitudSism = <noterremoto> then
+      return <Normal>
+    else
+      return <Precaucion>
+  );
 
 
 end Monitor

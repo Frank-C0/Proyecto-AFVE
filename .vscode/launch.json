@@ -9,7 +9,16 @@
             "type": "vdm",
             "request": "launch",
             "noDebug": false,
-            "defaultName": null
+            "defaultName": null,
+            "command": "print new Test().Run()"
+        },
+        {
+            "name": "Lens config: Debug Test`Run",
+            "type": "vdm",
+            "request": "launch",
+            "noDebug": false,
+            "defaultName": "Test",
+            "command": "p new Test().Run()"
         }
     ]
 }

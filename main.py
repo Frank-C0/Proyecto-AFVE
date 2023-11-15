@@ -1,14 +1,9 @@
 
 
-for s1 in (
-    "<noterremoto>",
-    "<microTerremotos>", 
-    "<pequenosTerremotos>", 
-    "<terremotosModerados>", 
-    "<terremotosFuertes>", 
-    "<terremotosMayores>", 
-    "<grandesTerremotos>", 
-    "<terremotosMuyGrandes>", 
+for s3 in (
+    "<Leve>",
+    "<Moderado>",
+    "<Brusco>",
 ):
     for s2 in (
         "<inactivo>",
@@ -16,9 +11,15 @@ for s1 in (
         "<moderadamenteActivo>",
         "<muyActivo>",
     ):
-        for s3 in (
-            "<Leve>",
-            "<Moderado>",
-            "<Brusco>",
+        for s1 in (
+            "<noterremoto>",
+            "<microTerremotos>", 
+            "<pequenosTerremotos>", 
+            "<terremotosModerados>", 
+            "<terremotosFuertes>", 
+            "<terremotosMayores>", 
+            "<grandesTerremotos>", 
+            "<terremotosMuyGrandes>", 
         ):
-            print(f"{s1} - {s2} - {s3}")
+            print(f"{s3} - {s2} - {s1}")
+            

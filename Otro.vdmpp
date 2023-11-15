@@ -1,28 +1,28 @@
-/**
-  Otro.
+-- /**
+--   Otro.
 
-  <p>
-  description
-  </p>
+--   <p>
+--   description
+--   </p>
 
-  @version
-  @author
-*/
+--   @version
+--   @author
+-- */
 
-class Otro
+-- class Otro
 
-types
+-- types
 
-values
+-- values
 
-instance variables
+-- instance variables
 
-operations
+-- operations
 
--- constructor for Otro
-public Otro: () ==> Otro
-Otro() == ();
+-- -- constructor for Otro
+-- public Otro: () ==> Otro
+-- Otro() == ();
 
-functions
+-- functions
 
-end Otro
+-- end Otro

@@ -1,3 +1,65 @@
+<Normal> | <Precaucion> | <Peligro> | <Evacuacion> | <Emergencia>;
+
+
+
+<inactivo> - <noterremoto> Normal
+<pocoActivo> - <noterremoto> Normal
+<pocoActivo> - <microTerremotos> precaucion
+<pocoActivo> - <pequenosTerremotos> precaucion
+<moderadamenteActivo> - <noterremoto> precaucion
+<moderadamenteActivo> - <microTerremotos> precaucion
+<moderadamenteActivo> - <pequenosTerremotos> precaucion
+
+
+
+if (grandesTerremotos o terremotosMuyGrandes o terremotosMayores o terremotosFuertes){
+    ret emergencia
+}
+if (brusco){
+    if(activo) {
+        if (noterremoto) ret peligro
+        ret evacuacion
+    }
+    if(terremotosModerados){
+        ret evacuacion
+    }
+    ret peligro
+}
+if (activo){
+    if(<terremotosModerados>) ret evacuacion
+    ret peligro
+}
+if (<terremotosModerados>) ret Peligro
+if (<noterremoto>) ret Normal
+ret precausion;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <noterremoto> - <inactivo> - <Leve>         ->      Normal
 <noterremoto> - <inactivo> - <Moderado>         ->      Normal
 <noterremoto> - <inactivo> - <Brusco>           ->      Normal
