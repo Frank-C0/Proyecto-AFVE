@@ -9,8 +9,6 @@ class SensorSism is subclass of Sensor
       tiempo: POSIX_Time
       magnitud: real
       inv mk_RegistroMagnitudTiempo(t,m) == t >= 0 and m >= 0;
-    public POSIX_Time = nat
-      inv t == t >=0;
 
   instance variables
     private estadoActual: MagnitudSismo;

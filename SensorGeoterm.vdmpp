@@ -1,8 +1,6 @@
 class SensorGeoterm is subclass of Sensor
   types
     public CambioTemp = <Leve> | <Moderado> | <Brusco>;
-    public POSIX_Time = nat
-      inv t == t >=0;
     public RegistroTemperaturaTiempo :: 
       tiempo: POSIX_Time
       temperatura: Kelvin

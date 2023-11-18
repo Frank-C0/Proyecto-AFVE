@@ -10,7 +10,10 @@ class Sensor
       
     public Position ::  lat : Latitude
                         long : real
-                        alt : real
+                        alt : real;
+    public POSIX_Time = nat
+      inv t == t >=0;
+
   instance variables
     public id: nat1;
     private ubicacion: Position;
