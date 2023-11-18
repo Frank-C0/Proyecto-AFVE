@@ -13,12 +13,12 @@
             "command": "print new Test().Run()"
         },
         {
-            "name": "Lens config: Debug Test`Run",
+            "name": "Lens config: Debug Test`initPocoActivo",
             "type": "vdm",
             "request": "launch",
             "noDebug": false,
             "defaultName": "Test",
-            "command": "p new Test().Run()"
+            "command": "p new Test().initPocoActivo()"
         }
     ]
 }

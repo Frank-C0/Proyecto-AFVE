@@ -1,5 +1,4 @@
 class Test
-
 instance variables
   sensorSism1: SensorSism;
   sensorSism2: SensorSism;
@@ -17,26 +16,13 @@ instance variables
   volcan1: Volcan;
   volcanNombre: seq of char;
 
-
-
   monitor: Monitor;
   monitorEstadoAlarma: Monitor`EstadoVolcan;
 
-  
   id: nat1;
-
 operations
-
   public Run: () ==> ()
-  Run() ==
-    (
-      -- initPocoActivo();
-      -- testSensorSism();
-      -- TestSensorGeoTerm();
-      -- TestVolcan();
-      -- TestMonitor();
-      -- Agrega más pruebas según sea necesario
-
+  Run() == (
       testGeneral();
     );
 
@@ -60,6 +46,7 @@ operations
     sensorGeoterm1.AgregarRegistroTemperatura(300, 0);
     sensorGeoterm2.AgregarRegistroTemperatura(300, 0);
   );
+
   public initMuyActivo: () ==> ()
   initMuyActivo() == (
     sensorSism1 := new SensorSism(1, -16.294444, -71.408889, 5800, true, 2023, 11, 11);
@@ -68,7 +55,6 @@ operations
     sensorGeoterm2 := new SensorGeoterm(2, -16.270000, -71.409000, 5806, true, 2023, 11, 11);
     volcan1 := new Volcan(1, "Misti");
     
-
     volcan1.AgregarSensorGeoterm(sensorGeoterm1);
     volcan1.AgregarSensorGeoterm(sensorGeoterm2);
     volcan1.AgregarSensorSism(sensorSism1);
@@ -118,7 +104,6 @@ operations
   --   if actividad = <muyActivo> then
   --     if magnitudSism = <noterremoto> then
   --       return <Peligro>
-  
     initMuyActivo();
     sensorSism1.AgregarMagnitudTiempo(0.2, 86400000000);
     sensorSism2.AgregarMagnitudTiempo(0.3, 86400000000);
@@ -127,7 +112,6 @@ operations
     monitor.ActualizarEstado();
   --     else
   --       return <Evacuacion>
-  
     initMuyActivo();
     sensorSism1.AgregarMagnitudTiempo(3.5, 86400000000);
     sensorSism2.AgregarMagnitudTiempo(3.4, 86400000000);
@@ -194,7 +178,6 @@ operations
     sensorGeoterm2.AgregarRegistroTemperatura(302, 86400000000);
     monitor.ActualizarEstado();
 
-
     id:= monitor.GetID();
     sensorSismMagnitud:= sensorSism1.GetEstadoActual();
     sensorSismactividad:= sensorSism1.GetActividad();
@@ -206,88 +189,5 @@ operations
     sensorDate:= sensorSism2.GetDate();
     volcan1:= monitor.GetVolcan();
     id:= volcan1.GetID();
-
   );
-
-    -- private testSensorSism: () ==> ()
-    -- testSensorSism() ==
-    --   (
-    --     sensorSism1 := new SensorSism(1, 0.0, 0.0, 0.0, true, 2023, 11, 11);
-
-    --     sensorSism1.AgregarMagnitudTiempo(0.1, 0);
-    --     sensorSism1.AgregarMagnitudTiempo(0.6, 86400000000);
-    --     sensorSism1.AgregarMagnitudTiempo(3.5, 86400010001);
-    --     sensorSism1.AgregarMagnitudTiempo(4.5, 86400020001);
-    --     sensorSism1.AgregarMagnitudTiempo(5.5, 86400030001);
-    --     sensorSism1.AgregarMagnitudTiempo(6.5, 86400040001);
-    --     sensorSism1.AgregarMagnitudTiempo(7.5, 86400050001);
-    --     sensorSism1.AgregarMagnitudTiempo(8.5, 86400060001);
-    --     sensorSism1.AgregarMagnitudTiempo(9.5, 86400070001);
-    --     sensorSism1.AgregarMagnitudTiempo(10.5, 86400080001);
-
-
-
-
-
-    --     sensorSism2 := new SensorSism(1, 0.0, 0.0, 0.0, true, 2023, 11, 11);
-
-    --     sensorSism2.AgregarMagnitudTiempo(0.1, 0);
-    --     sensorSism2.AgregarMagnitudTiempo(0.6, 86400000000);
-    --     sensorSism2.AgregarMagnitudTiempo(3.5, 86400010001);
-    --     sensorSism2.AgregarMagnitudTiempo(4.5, 86400020001);
-    --     sensorSism2.AgregarMagnitudTiempo(5.5, 86400030001);
-    --     sensorSism2.AgregarMagnitudTiempo(6.5, 86400040001);
-    --     sensorSism2.AgregarMagnitudTiempo(7.5, 86400050001);
-    --     sensorSism2.AgregarMagnitudTiempo(8.5, 86400060001);
-    --     sensorSism2.AgregarMagnitudTiempo(9.5, 86400070001);
-    --     sensorSism2.AgregarMagnitudTiempo(10.5, 86400080001);
-    --     sensorSism2.AgregarMagnitudTiempo(10.6, 86400080001);
-
-    --     -- assertEqual(sensorSism1.GetMagnitudActual(), <);
-
-    --     -- sensorSism1.GetMagnitudes();
-    --     -- sensorSism1.GetActividad();
-    --     -- -- sensorSism1.HoraASegundos();
-    --     -- sensorSism1.GetEstadoActual();
-    --     -- sensorSism1.GetMagnitudActual();
-    --     -- -- Añade más aserciones según sea necesario
-    --   );
-
-    --   public TestSensorGeoTerm: () ==> ()
-    --   TestSensorGeoTerm() == (
-    --     sensorGeoterm1 := new SensorGeoterm(2, 0.0, 0.0, 0.0, true, 2023, 11, 11);
-
-    --     sensorGeoterm1.AgregarRegistroTemperatura(200, 0);
-    --     sensorGeoterm1.AgregarRegistroTemperatura(300, 86400000000);
-    --     sensorGeoterm1.AgregarRegistroTemperatura(400, 86401000000);
-    --     sensorGeoterm1.AgregarRegistroTemperatura(500, 86402000000);
-
-
-
-    --     sensorGeoterm2 := new SensorGeoterm(2, 0.0, 0.0, 0.0, true, 2023, 11, 11);
-
-    --     sensorGeoterm2.AgregarRegistroTemperatura(200, 0);
-    --     sensorGeoterm2.AgregarRegistroTemperatura(300, 86400000000);
-    --     sensorGeoterm2.AgregarRegistroTemperatura(400, 86401000000);
-    --     sensorGeoterm2.AgregarRegistroTemperatura(550, 86402000000);
-    --   );
-
-    --   -- Exec: (a) ==> ()
-    --   -- Exec(a) ==
-    --   --   skip;
-    --   public TestVolcan: () ==> ()
-    --   TestVolcan() == (
-    --     volcan1 := new Volcan(1, "Misti");
-    --     volcan1.AgregarSensorGeoterm(sensorGeoterm1);
-    --     volcan1.AgregarSensorGeoterm(sensorGeoterm2);
-    --     volcan1.AgregarSensorSism(sensorSism1);
-    --     volcan1.AgregarSensorSism(sensorSism2);
-    --   );
-
-    --   public TestMonitor: () ==> ()
-    --   TestMonitor() == (
-    --     monitor := new Monitor(1, volcan1);
-    --     m:=monitor.ObtenerMaximaLecturaGeotermica();
-    --     monitor.ActualizarEstado();
-    --   );
 end Test

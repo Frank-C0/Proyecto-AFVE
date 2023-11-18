@@ -1,11 +1,8 @@
 class SensorGeoterm is subclass of Sensor
-
   types
     public CambioTemp = <Leve> | <Moderado> | <Brusco>;
-
     public POSIX_Time = nat
       inv t == t >=0;
-
     public RegistroTemperaturaTiempo :: 
       tiempo: POSIX_Time
       temperatura: Kelvin
@@ -19,20 +16,13 @@ class SensorGeoterm is subclass of Sensor
     private cambioTemperaturaReal: real;
 
   operations
-
-    public SensorGeoterm
-      : nat1 * real * real * real * bool * 
-        nat1 * nat1 * nat1 ==> SensorGeoterm
-    SensorGeoterm
-      (i, x, y, z, activo, anio, mes, dia)
-      ==
-      (
+    public SensorGeoterm: nat1 * real * real * real * bool * nat1 * nat1 * nat1 ==> SensorGeoterm
+    SensorGeoterm(i, x, y, z, activo, anio, mes, dia) == (
         cambioTemperatura := <Leve> ;
         listaTemperaturas := [];
         cambioTemperaturaReal := 0;
 
         self.Sensor(i, x, y, z, activo, anio, mes, dia);        
-        -- return self;
       )
       pre i > 0 and anio > 0 and mes > 0 and mes <= 12 and dia > 0 and dia <= 31;
 
@@ -40,23 +30,12 @@ class SensorGeoterm is subclass of Sensor
     public GetCambioTemperatura: () ==> CambioTemp
     GetCambioTemperatura() == return cambioTemperatura;
 
-    -- Obtener la lista de temperaturas del sensor geotérmico
-    -- public GetListaTemperaturas: () ==> seq of real
-    -- GetListaTemperaturas() == return listaTemperaturas;
-
-    -- Obtener la nueva temperatura del sensor geotérmico
-    -- public GetNuevaTemp: () ==> real
-    -- GetNuevaTemp() == return nuevaTemp;
-
-          -- inv t       inv t == t >=0;
     public GetUltimoCambioTemperatura: () ==> real
     GetUltimoCambioTemperatura() == return cambioTemperaturaReal;
 
-
     -- Agregar un registro de temperatura a la lista
     public AgregarRegistroTemperatura: Kelvin * POSIX_Time ==> ()
-    AgregarRegistroTemperatura(temp, tiempo) == 
-    (
+    AgregarRegistroTemperatura(temp, tiempo) == (
       listaTemperaturas := listaTemperaturas ^ [mk_RegistroTemperaturaTiempo(tiempo, temp)];
       CalcularCambioTemperatura();
       cambioTemperatura := ClasificarCambioTemperatura(cambioTemperaturaReal);
@@ -73,7 +52,6 @@ class SensorGeoterm is subclass of Sensor
         in
           cambioTemperaturaReal := ultimaTemp - penultimaTemp
       else
-        -- Retornar 0 si no hay suficientes registros para calcular el cambio
         cambioTemperaturaReal := 0;
 
     -- Clasificar el cambio de temperatura según los rangos especificados
@@ -85,5 +63,4 @@ class SensorGeoterm is subclass of Sensor
         return <Moderado>
       else
         return <Brusco>;
-
-  end SensorGeoterm
+end SensorGeoterm

@@ -1,133 +1,102 @@
 class SensorSism is subclass of Sensor
-
   types
     public MagnitudSismo = 
       <microTerremotos> | <pequenosTerremotos> | <terremotosModerados> |
       <terremotosFuertes> | <terremotosMayores> | <grandesTerremotos> | 
       <terremotosMuyGrandes> | <noterremoto>;
-    
     public EstadoSism = <muyActivo> | <moderadamenteActivo> | <pocoActivo> | <inactivo>;
-    
     public RegistroMagnitudTiempo :: 
       tiempo: POSIX_Time
       magnitud: real
       inv mk_RegistroMagnitudTiempo(t,m) == t >= 0 and m >= 0;
-
     public POSIX_Time = nat
       inv t == t >=0;
-
-  -- inv  forall registro in set magnitudes & registro.magnitud > 0;
 
   instance variables
     private estadoActual: MagnitudSismo;
     private actividad: EstadoSism;
     private magnitudes: seq of RegistroMagnitudTiempo := [];
     private numActividadDia: nat
-  operations
 
-    public SensorSism: nat1 * real * real * real * bool * 
-      nat1 * nat1 * nat1 ==> SensorSism
-    SensorSism
-    (i, x, y, z, activo, anio, mes, dia)
-    ==
-    (
+  operations
+    public SensorSism: nat1 * real * real * real * bool * nat1 * nat1 * nat1 ==> SensorSism
+    SensorSism(i, x, y, z, activo, anio, mes, dia) == (
       estadoActual := <noterremoto>;
       actividad := <inactivo>;
       magnitudes := [];
-      numActividadDia := 0;
-      
+      numActividadDia := 0;      
       self.Sensor(i, x, y, z, activo, anio, mes, dia);
-      -- return self;
     )
     pre i > 0 and anio > 0 and mes > 0 and mes <= 12 and dia > 0 and dia <= 31;
 
-    -- Función para transformar una Hora a segundos
-    -- public HoraASegundos: Hora ==> nat
-    -- HoraASegundos(hora) == return hora.hour * 3600 + hora.minute * 60 + hora.second;
-
     -- Función para actualizar el estado según la magnitud del nuevo registro
     public static ClasificarMagnitudSismo: real ==> MagnitudSismo
-    ClasificarMagnitudSismo(magnitud) ==
-      (
-        if magnitud < 0.5 then
-          return <noterremoto>
-        elseif magnitud < 3.0 then
-          return <microTerremotos>
-        elseif magnitud < 4.0 then
-          return <pequenosTerremotos>
-        elseif magnitud < 5.0 then
-          return <terremotosModerados>
-        elseif magnitud < 6.0 then
-          return <terremotosFuertes>
-        elseif magnitud < 7.0 then
-          return <terremotosMayores>
-        elseif magnitud < 8.0 then
-          return <grandesTerremotos>
-        else
-          return <terremotosMuyGrandes>
-      );
+    ClasificarMagnitudSismo(magnitud) == (
+      if magnitud < 0.5 then
+        return <noterremoto>
+      elseif magnitud < 3.0 then
+        return <microTerremotos>
+      elseif magnitud < 4.0 then
+        return <pequenosTerremotos>
+      elseif magnitud < 5.0 then
+        return <terremotosModerados>
+      elseif magnitud < 6.0 then
+        return <terremotosFuertes>
+      elseif magnitud < 7.0 then
+        return <terremotosMayores>
+      elseif magnitud < 8.0 then
+        return <grandesTerremotos>
+      else
+        return <terremotosMuyGrandes>
+    );
 
     public static ClasificarActividadSismica: real ==> EstadoSism
-    ClasificarActividadSismica(cantidadEventos) ==
-      (
-        if cantidadEventos > 8 then
-          return <muyActivo>  
-        elseif cantidadEventos >= 3 and cantidadEventos <= 8 then
-          return <moderadamenteActivo>
-        elseif cantidadEventos >= 1 and cantidadEventos <= 3 then
-          return <pocoActivo>
-        else
-          return <inactivo>
-      );
+    ClasificarActividadSismica(cantidadEventos) == (
+      if cantidadEventos > 8 then
+        return <muyActivo>  
+      elseif cantidadEventos >= 3 and cantidadEventos <= 8 then
+        return <moderadamenteActivo>
+      elseif cantidadEventos >= 1 and cantidadEventos <= 3 then
+        return <pocoActivo>
+      else
+        return <inactivo>
+    );
 
     -- Función para verificar y eliminar registros antiguos
     private VerificarEliminarRegistrosAntiguos: POSIX_Time ==> ()
-    VerificarEliminarRegistrosAntiguos(tiempoActual) ==
-      (
-        magnitudes := [reg | reg in seq magnitudes & tiempoActual - reg.tiempo <= 24 * 60 * 60 * 1000 * 1000];
-      );
+    VerificarEliminarRegistrosAntiguos(tiempoActual) == (
+      magnitudes := [reg | reg in seq magnitudes & tiempoActual - reg.tiempo <= 24 * 60 * 60 * 1000 * 1000];
+    );
 
     -- Agregar una magnitud y tiempo a la lista del sismómetro
     public AgregarMagnitudTiempo: real * POSIX_Time ==> ()
-    AgregarMagnitudTiempo(magnitud, tiempo) ==
-      (
-        -- Verificar y eliminar registros antiguos
-        
-        VerificarEliminarRegistrosAntiguos(tiempo);
-        -- Actualizar el estado según la magnitud del nuevo registro
-        estadoActual := ClasificarMagnitudSismo(magnitud);
-        -- Agregar el nuevo registro
-        magnitudes := magnitudes ^ [mk_RegistroMagnitudTiempo(tiempo, magnitud)];
-        -- Actualizar la actividad según las magnitudes en las últimas 24 horas
-        ActualizarNumTemperaturas();
-        actividad := ClasificarActividadSismica(numActividadDia);
-      );
+    AgregarMagnitudTiempo(magnitud, tiempo) == (
+      -- Verificar y eliminar registros antiguos
+      VerificarEliminarRegistrosAntiguos(tiempo);
+      -- Actualizar el estado según la magnitud del nuevo registro
+      estadoActual := ClasificarMagnitudSismo(magnitud);
+      -- Agregar el nuevo registro
+      magnitudes := magnitudes ^ [mk_RegistroMagnitudTiempo(tiempo, magnitud)];
+      -- Actualizar la actividad según las magnitudes en las últimas 24 horas
+      ActualizarNumTemperaturas();
+      actividad := ClasificarActividadSismica(numActividadDia);
+    );
+
     private ActualizarNumTemperaturas: () ==> ()
     ActualizarNumTemperaturas() == (
       numActividadDia := len [reg | reg in seq magnitudes & reg.magnitud > 0.5];
     );
 
-    -- Obtener el estado actual del sismómetro
     public GetEstadoActual: () ==> MagnitudSismo
     GetEstadoActual() == return estadoActual;
 
     public GetMagnitudActual: () ==> real
     GetMagnitudActual() == return magnitudes(len magnitudes).magnitud;
 
-    -- Obtener la actividad del sismómetro
     public GetActividad: () ==> EstadoSism
     GetActividad() == return actividad;
 
     public GetNumActividad: () ==> nat
     GetNumActividad() == return numActividadDia;
-
-    -- Obtener la magnitud actual del sismómetro
-    -- public GetMagnitudActual: () ==> real
-    -- GetMagnitudActual() == return magnitudes(len magnitudes).magnitud
-    --   pre magnitudes <> [];
-
-    -- Obtener las magnitudes y tiempos almacenados del sismómetro
-    -- public GetMagnitudes: () ==> seq of RegistroMagnitudTiempo
-    -- GetMagnitudes() == return magnitudes;
-
+    
 end SensorSism
