@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+const int N = 10;
+int [0,N] len;
+
+int [-100, 1000] cambioTemp;
+
+broadcast chan lectura;
+broadcast chan lectGeoterm;
+
+
+int ultMag;</declaration>
+	<template>
+		<name>LecturaSensorSismico</name>
+		<declaration>int x; //horas
+int time[N+1];
+int listMagnitudes[N+1];
+void eliminarRegistroMagnitud(){
+        int i = 0;
+        len = len - 1;
+        while (i &lt; len)        {
+                listMagnitudes[i] = listMagnitudes[i + 1];
+                time[i] = time[i + 1];
+                i++;
+        }
+        listMagnitudes[i] = 0;
+        time[i] = 0;
+}
+void verificarTiempo(){
+        while(time[0] + 24 &lt; x &amp;&amp; len &gt; 0){
+            eliminarRegistroMagnitud();
+        }
+}
+void ingresarRegistroMagnitud(int r, int magnitud){        
+        if(x&gt;40){
+            int i = 0;
+            while (i &lt; len){
+                    time[i] = time[i] - x;
+                    i++;
+            }
+            x = x - x;
+        }
+        ultMag = magnitud;
+        x = x + r;
+        //magnitud: Mw*10
+        if(magnitud &gt;= 5){ 
+            if(len &gt;= N){
+                //para que la cola no se llene
+                eliminarRegistroMagnitud();
+            }
+            listMagnitudes[len] = magnitud;
+            time[len] = x;
+            len++;
+        }
+        verificarTiempo();
+}</declaration>
+		<location id="id0" x="-986" y="-68">
+			<name x="-1011" y="-59">Inicio</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id1">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1020" y="-178">lectura!</label>
+			<label kind="assignment" x="-909" y="-59">ingresarRegistroMagnitud(25,  1)</label>
+			<nail x="-952" y="-17"/>
+			<nail x="-935" y="-34"/>
+		</transition>
+		<transition id="id2">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1020" y="-178">lectura!</label>
+			<label kind="assignment" x="-909" y="-25">ingresarRegistroMagnitud(25, 10)</label>
+			<nail x="-1037" y="-34"/>
+			<nail x="-1020" y="-17"/>
+		</transition>
+		<transition id="id3">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1020" y="-178">lectura!</label>
+			<label kind="assignment" x="-909" y="-42">ingresarRegistroMagnitud( 2, 35)</label>
+			<nail x="-994" y="0"/>
+			<nail x="-977" y="0"/>
+		</transition>
+		<transition id="id4">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1020" y="-178">lectura!</label>
+			<label kind="assignment" x="-909" y="-93">ingresarRegistroMagnitud(26, 45)</label>
+			<nail x="-943" y="-119"/>
+			<nail x="-926" y="-102"/>
+		</transition>
+		<transition id="id5">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1020" y="-178">lectura!</label>
+			<label kind="assignment" x="-909" y="-76">ingresarRegistroMagnitud(25, 55)</label>
+			<nail x="-918" y="-59"/>
+			<nail x="-918" y="-76"/>
+		</transition>
+		<transition id="id6">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1020" y="-178">lectura!</label>
+			<label kind="assignment" x="-909" y="-110">ingresarRegistroMagnitud(26, 65)</label>
+			<nail x="-994" y="-136"/>
+			<nail x="-977" y="-136"/>
+		</transition>
+		<transition id="id7">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1020" y="-178">lectura!</label>
+			<label kind="assignment" x="-909" y="-127">ingresarRegistroMagnitud(25, 75)</label>
+			<nail x="-1045" y="-102"/>
+			<nail x="-1028" y="-119"/>
+		</transition>
+		<transition id="id8">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1020" y="-178">lectura!</label>
+			<label kind="assignment" x="-909" y="-144">ingresarRegistroMagnitud( 1, 85)</label>
+			<nail x="-1062" y="-59"/>
+			<nail x="-1062" y="-76"/>
+		</transition>
+	</template>
+	<template>
+		<name>ClasificacionMagnitud</name>
+		<location id="id9" x="-1309" y="-425">
+			<name x="-1419" y="-442">Noterremoto</name>
+		</location>
+		<location id="id10" x="-1368" y="-110">
+			<name x="-1496" y="-119">Microterremoto</name>
+		</location>
+		<location id="id11" x="-306" y="374">
+			<name x="-314" y="510">Terremotofuerte</name>
+		</location>
+		<location id="id12" x="47" y="150">
+			<name x="85" y="221">Terremotomayor</name>
+		</location>
+		<location id="id13" x="93" y="-502">
+			<name x="83" y="-536">Terremotomuygrande</name>
+		</location>
+		<location id="id14" x="-1173" y="229">
+			<name x="-1334" y="255">Pequenioterremoto</name>
+		</location>
+		<location id="id15" x="-756" y="391">
+			<name x="-824" y="518">Terremotomoderado</name>
+		</location>
+		<location id="id16" x="153" y="-238">
+			<name x="263" y="-231">GranTerremoto</name>
+		</location>
+		<init ref="id9"/>
+		<transition id="id17">
+			<source ref="id13"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1496" y="-153">ultMag &gt;= 5 &amp;&amp; ultMag &lt; 30</label>
+			<label kind="synchronisation" x="-1462" y="-136">lectura?</label>
+			<nail x="-637" y="-374"/>
+		</transition>
+		<transition id="id18">
+			<source ref="id10"/>
+			<target ref="id13"/>
+			<label kind="guard" x="153" y="-485">ultMag &gt;= 80</label>
+			<label kind="synchronisation" x="170" y="-459">lectura?</label>
+			<nail x="-586" y="-272"/>
+		</transition>
+		<transition id="id19">
+			<source ref="id13"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1419" y="-484">ultMag &lt; 5</label>
+			<label kind="synchronisation" x="-1394" y="-458">lectura?</label>
+			<nail x="-603" y="-501"/>
+		</transition>
+		<transition id="id20">
+			<source ref="id9"/>
+			<target ref="id13"/>
+			<label kind="guard" x="153" y="-485">ultMag &gt;= 80</label>
+			<label kind="synchronisation" x="170" y="-459">lectura?</label>
+			<nail x="-603" y="-408"/>
+		</transition>
+		<transition id="id21">
+			<source ref="id16"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1419" y="-484">ultMag &lt; 5</label>
+			<label kind="synchronisation" x="-1394" y="-458">lectura?</label>
+			<nail x="-561" y="-314"/>
+		</transition>
+		<transition id="id22">
+			<source ref="id9"/>
+			<target ref="id16"/>
+			<label kind="guard" x="212" y="-256">ultMag &gt;= 70 &amp;&amp; ultMag &lt; 80</label>
+			<label kind="synchronisation" x="280" y="-212">lectura?</label>
+			<nail x="-586" y="-229"/>
+		</transition>
+		<transition id="id23">
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-1351" y="272">ultMag &gt;=30 &amp;&amp; ultMag &lt; 40</label>
+			<label kind="synchronisation" x="-1351" y="289">lectura?</label>
+			<nail x="-561" y="-161"/>
+		</transition>
+		<transition id="id24">
+			<source ref="id14"/>
+			<target ref="id13"/>
+			<label kind="guard" x="153" y="-485">ultMag &gt;= 80</label>
+			<label kind="synchronisation" x="170" y="-459">lectura?</label>
+			<nail x="-450" y="-110"/>
+		</transition>
+		<transition id="id25">
+			<source ref="id16"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1496" y="-153">ultMag &gt;= 5 &amp;&amp; ultMag &lt; 30</label>
+			<label kind="synchronisation" x="-1462" y="-136">lectura?</label>
+			<nail x="-603" y="-178"/>
+		</transition>
+		<transition id="id26">
+			<source ref="id10"/>
+			<target ref="id16"/>
+			<label kind="guard" x="212" y="-256">ultMag &gt;= 70 &amp;&amp; ultMag &lt; 80</label>
+			<label kind="synchronisation" x="280" y="-212">lectura?</label>
+			<nail x="-569" y="-8"/>
+		</transition>
+		<transition id="id27">
+			<source ref="id12"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1419" y="-484">ultMag &lt; 5</label>
+			<label kind="synchronisation" x="-1394" y="-458">lectura?</label>
+			<nail x="-586" y="-119"/>
+		</transition>
+		<transition id="id28">
+			<source ref="id9"/>
+			<target ref="id12"/>
+			<label kind="guard" x="51" y="169">ultMag &gt;=60 &amp;&amp; ultMag &lt; 70</label>
+			<label kind="synchronisation" x="102" y="195">lectura?</label>
+			<nail x="-663" y="-17"/>
+		</transition>
+		<transition id="id29">
+			<source ref="id13"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-850" y="476">ultMag &gt;= 40 &amp;&amp; ultMag &lt; 50</label>
+			<label kind="synchronisation" x="-791" y="501">lectura?</label>
+			<nail x="-374" y="-110"/>
+		</transition>
+		<transition id="id30">
+			<source ref="id15"/>
+			<target ref="id13"/>
+			<label kind="guard" x="153" y="-485">ultMag &gt;= 80</label>
+			<label kind="synchronisation" x="170" y="-459">lectura?</label>
+			<nail x="-238" y="-51"/>
+		</transition>
+		<transition id="id31">
+			<source ref="id16"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-1351" y="272">ultMag &gt;=30 &amp;&amp; ultMag &lt; 40</label>
+			<label kind="synchronisation" x="-1351" y="289">lectura?</label>
+			<nail x="-527" y="-42"/>
+		</transition>
+		<transition id="id32">
+			<source ref="id14"/>
+			<target ref="id16"/>
+			<label kind="guard" x="212" y="-256">ultMag &gt;= 70 &amp;&amp; ultMag &lt; 80</label>
+			<label kind="synchronisation" x="280" y="-212">lectura?</label>
+			<nail x="-442" y="102"/>
+		</transition>
+		<transition id="id33">
+			<source ref="id12"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1496" y="-153">ultMag &gt;= 5 &amp;&amp; ultMag &lt; 30</label>
+			<label kind="synchronisation" x="-1462" y="-136">lectura?</label>
+			<nail x="-629" y="25"/>
+		</transition>
+		<transition id="id34">
+			<source ref="id10"/>
+			<target ref="id12"/>
+			<label kind="guard" x="51" y="169">ultMag &gt;=60 &amp;&amp; ultMag &lt; 70</label>
+			<label kind="synchronisation" x="102" y="195">lectura?</label>
+			<nail x="-671" y="195"/>
+		</transition>
+		<transition id="id35">
+			<source ref="id11"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1419" y="-484">ultMag &lt; 5</label>
+			<label kind="synchronisation" x="-1394" y="-458">lectura?</label>
+			<nail x="-799" y="0"/>
+		</transition>
+		<transition id="id36">
+			<source ref="id9"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-357" y="476">ultMag &gt;= 50 &amp;&amp; ultMag &lt; 60</label>
+			<label kind="synchronisation" x="-357" y="493">lectura?</label>
+			<nail x="-884" y="68"/>
+		</transition>
+		<transition id="id37">
+			<source ref="id13"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-357" y="476">ultMag &gt;= 50 &amp;&amp; ultMag &lt; 60</label>
+			<label kind="synchronisation" x="-357" y="493">lectura?</label>
+			<nail x="-127" y="-68"/>
+		</transition>
+		<transition id="id38">
+			<source ref="id11"/>
+			<target ref="id13"/>
+			<label kind="guard" x="153" y="-485">ultMag &gt;= 80</label>
+			<label kind="synchronisation" x="170" y="-459">lectura?</label>
+			<nail x="-25" y="-34"/>
+		</transition>
+		<transition id="id39">
+			<source ref="id16"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-850" y="476">ultMag &gt;= 40 &amp;&amp; ultMag &lt; 50</label>
+			<label kind="synchronisation" x="-791" y="501">lectura?</label>
+			<nail x="-255" y="68"/>
+		</transition>
+		<transition id="id40">
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="guard" x="212" y="-256">ultMag &gt;= 70 &amp;&amp; ultMag &lt; 80</label>
+			<label kind="synchronisation" x="280" y="-212">lectura?</label>
+			<nail x="-195" y="127"/>
+		</transition>
+		<transition id="id41">
+			<source ref="id12"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-1351" y="272">ultMag &gt;=30 &amp;&amp; ultMag &lt; 40</label>
+			<label kind="synchronisation" x="-1351" y="289">lectura?</label>
+			<nail x="-544" y="221"/>
+		</transition>
+		<transition id="id42">
+			<source ref="id14"/>
+			<target ref="id12"/>
+			<label kind="guard" x="51" y="169">ultMag &gt;=60 &amp;&amp; ultMag &lt; 70</label>
+			<label kind="synchronisation" x="102" y="195">lectura?</label>
+			<nail x="-544" y="289"/>
+		</transition>
+		<transition id="id43">
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1496" y="-153">ultMag &gt;= 5 &amp;&amp; ultMag &lt; 30</label>
+			<label kind="synchronisation" x="-1462" y="-136">lectura?</label>
+			<nail x="-867" y="119"/>
+		</transition>
+		<transition id="id44">
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-357" y="476">ultMag &gt;= 50 &amp;&amp; ultMag &lt; 60</label>
+			<label kind="synchronisation" x="-357" y="493">lectura?</label>
+			<nail x="-909" y="195"/>
+		</transition>
+		<transition id="id45">
+			<source ref="id15"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1419" y="-484">ultMag &lt; 5</label>
+			<label kind="synchronisation" x="-1394" y="-458">lectura?</label>
+			<nail x="-1054" y="-42"/>
+		</transition>
+		<transition id="id46">
+			<source ref="id9"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-850" y="476">ultMag &gt;= 40 &amp;&amp; ultMag &lt; 50</label>
+			<label kind="synchronisation" x="-791" y="501">lectura?</label>
+			<nail x="-1130" y="-25"/>
+		</transition>
+		<transition id="id47">
+			<source ref="id13"/>
+			<target ref="id12"/>
+			<label kind="guard" x="51" y="169">ultMag &gt;=60 &amp;&amp; ultMag &lt; 70</label>
+			<label kind="synchronisation" x="102" y="195">lectura?</label>
+			<nail x="34" y="-229"/>
+		</transition>
+		<transition id="id48">
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="guard" x="153" y="-485">ultMag &gt;= 80</label>
+			<label kind="synchronisation" x="170" y="-459">lectura?</label>
+			<nail x="102" y="-229"/>
+		</transition>
+		<transition id="id49">
+			<source ref="id16"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-357" y="476">ultMag &gt;= 50 &amp;&amp; ultMag &lt; 60</label>
+			<label kind="synchronisation" x="-357" y="493">lectura?</label>
+			<nail x="-93" y="59"/>
+			<nail x="-93" y="59"/>
+		</transition>
+		<transition id="id50">
+			<source ref="id11"/>
+			<target ref="id16"/>
+			<label kind="guard" x="212" y="-256">ultMag &gt;= 70 &amp;&amp; ultMag &lt; 80</label>
+			<label kind="synchronisation" x="280" y="-212">lectura?</label>
+			<nail x="-34" y="102"/>
+		</transition>
+		<transition id="id51">
+			<source ref="id11"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-1351" y="272">ultMag &gt;=30 &amp;&amp; ultMag &lt; 40</label>
+			<label kind="synchronisation" x="-1351" y="289">lectura?</label>
+			<nail x="-731" y="289"/>
+		</transition>
+		<transition id="id52">
+			<source ref="id14"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-357" y="476">ultMag &gt;= 50 &amp;&amp; ultMag &lt; 60</label>
+			<label kind="synchronisation" x="-357" y="493">lectura?</label>
+			<nail x="-756" y="340"/>
+		</transition>
+		<transition id="id53">
+			<source ref="id12"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-850" y="476">ultMag &gt;= 40 &amp;&amp; ultMag &lt; 50</label>
+			<label kind="synchronisation" x="-791" y="501">lectura?</label>
+			<nail x="-340" y="229"/>
+		</transition>
+		<transition id="id54">
+			<source ref="id15"/>
+			<target ref="id12"/>
+			<label kind="guard" x="51" y="169">ultMag &gt;=60 &amp;&amp; ultMag &lt; 70</label>
+			<label kind="synchronisation" x="102" y="195">lectura?</label>
+			<nail x="-323" y="297"/>
+		</transition>
+		<transition id="id55">
+			<source ref="id15"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1496" y="-153">ultMag &gt;= 5 &amp;&amp; ultMag &lt; 30</label>
+			<label kind="synchronisation" x="-1462" y="-136">lectura?</label>
+			<nail x="-1088" y="153"/>
+		</transition>
+		<transition id="id56">
+			<source ref="id10"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-850" y="476">ultMag &gt;= 40 &amp;&amp; ultMag &lt; 50</label>
+			<label kind="synchronisation" x="-791" y="501">lectura?</label>
+			<nail x="-1037" y="127"/>
+		</transition>
+		<transition id="id57">
+			<source ref="id14"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1419" y="-484">ultMag &lt; 5</label>
+			<label kind="synchronisation" x="-1394" y="-458">lectura?</label>
+			<nail x="-1207" y="-102"/>
+		</transition>
+		<transition id="id58">
+			<source ref="id9"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-1351" y="272">ultMag &gt;=30 &amp;&amp; ultMag &lt; 40</label>
+			<label kind="synchronisation" x="-1351" y="289">lectura?</label>
+			<nail x="-1283" y="-93"/>
+		</transition>
+		<transition id="id59">
+			<source ref="id10"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1496" y="-153">ultMag &gt;= 5 &amp;&amp; ultMag &lt; 30</label>
+			<label kind="synchronisation" x="-1462" y="-136">lectura?</label>
+			<nail x="-1488" y="-42"/>
+			<nail x="-1386" y="-42"/>
+		</transition>
+		<transition id="id60">
+			<source ref="id13"/>
+			<target ref="id13"/>
+			<label kind="guard" x="153" y="-485">ultMag &gt;= 80</label>
+			<label kind="synchronisation" x="170" y="-459">lectura?</label>
+			<nail x="161" y="-493"/>
+			<nail x="178" y="-519"/>
+		</transition>
+		<transition id="id61">
+			<source ref="id16"/>
+			<target ref="id16"/>
+			<label kind="guard" x="212" y="-256">ultMag &gt;= 70 &amp;&amp; ultMag &lt; 80</label>
+			<label kind="synchronisation" x="280" y="-212">lectura?</label>
+			<nail x="195" y="-197"/>
+			<nail x="229" y="-222"/>
+		</transition>
+		<transition id="id62">
+			<source ref="id11"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-357" y="476">ultMag &gt;= 50 &amp;&amp; ultMag &lt; 60</label>
+			<label kind="synchronisation" x="-357" y="493">lectura?</label>
+			<nail x="-331" y="434"/>
+			<nail x="-246" y="442"/>
+		</transition>
+		<transition id="id63">
+			<source ref="id12"/>
+			<target ref="id12"/>
+			<label kind="guard" x="51" y="169">ultMag &gt;=60 &amp;&amp; ultMag &lt; 70</label>
+			<label kind="synchronisation" x="102" y="195">lectura?</label>
+			<nail x="102" y="161"/>
+			<nail x="127" y="136"/>
+		</transition>
+		<transition id="id64">
+			<source ref="id15"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-850" y="476">ultMag &gt;= 40 &amp;&amp; ultMag &lt; 50</label>
+			<label kind="synchronisation" x="-791" y="501">lectura?</label>
+			<nail x="-808" y="467"/>
+			<nail x="-723" y="467"/>
+		</transition>
+		<transition id="id65">
+			<source ref="id14"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-1351" y="272">ultMag &gt;=30 &amp;&amp; ultMag &lt; 40</label>
+			<label kind="synchronisation" x="-1351" y="289">lectura?</label>
+			<nail x="-1216" y="306"/>
+			<nail x="-1122" y="340"/>
+		</transition>
+		<transition id="id66">
+			<source ref="id9"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1419" y="-484">ultMag &lt; 5</label>
+			<label kind="synchronisation" x="-1394" y="-458">lectura?</label>
+			<nail x="-1309" y="-501"/>
+			<nail x="-1250" y="-450"/>
+		</transition>
+		<transition id="id67">
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1419" y="-484">ultMag &lt; 5</label>
+			<label kind="synchronisation" x="-1394" y="-458">lectura?</label>
+			<nail x="-1420" y="-178"/>
+			<nail x="-1385" y="-374"/>
+		</transition>
+		<transition id="id68">
+			<source ref="id14"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1496" y="-153">ultMag &gt;= 5 &amp;&amp; ultMag &lt; 30</label>
+			<label kind="synchronisation" x="-1462" y="-136">lectura?</label>
+			<nail x="-1283" y="187"/>
+			<nail x="-1342" y="68"/>
+		</transition>
+		<transition id="id69">
+			<source ref="id15"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-1351" y="272">ultMag &gt;=30 &amp;&amp; ultMag &lt; 40</label>
+			<label kind="synchronisation" x="-1351" y="289">lectura?</label>
+			<nail x="-917" y="434"/>
+			<nail x="-1004" y="399"/>
+		</transition>
+		<transition id="id70">
+			<source ref="id11"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-850" y="476">ultMag &gt;= 40 &amp;&amp; ultMag &lt; 50</label>
+			<label kind="synchronisation" x="-791" y="501">lectura?</label>
+			<nail x="-435" y="435"/>
+			<nail x="-622" y="437"/>
+		</transition>
+		<transition id="id71">
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-357" y="476">ultMag &gt;= 50 &amp;&amp; ultMag &lt; 60</label>
+			<label kind="synchronisation" x="-357" y="493">lectura?</label>
+			<nail x="0" y="238"/>
+			<nail x="-127" y="365"/>
+		</transition>
+		<transition id="id72">
+			<source ref="id16"/>
+			<target ref="id12"/>
+			<label kind="guard" x="51" y="169">ultMag &gt;=60 &amp;&amp; ultMag &lt; 70</label>
+			<label kind="synchronisation" x="102" y="195">lectura?</label>
+			<nail x="195" y="-85"/>
+			<nail x="119" y="43"/>
+		</transition>
+		<transition id="id73">
+			<source ref="id13"/>
+			<target ref="id16"/>
+			<label kind="guard" x="212" y="-256">ultMag &gt;= 70 &amp;&amp; ultMag &lt; 80</label>
+			<label kind="synchronisation" x="280" y="-212">lectura?</label>
+			<nail x="195" y="-426"/>
+			<nail x="230" y="-349"/>
+		</transition>
+		<transition id="id74">
+			<source ref="id16"/>
+			<target ref="id13"/>
+			<label kind="guard" x="153" y="-485">ultMag &gt;= 80</label>
+			<label kind="synchronisation" x="170" y="-459">lectura?</label>
+		</transition>
+		<transition id="id75">
+			<source ref="id12"/>
+			<target ref="id16"/>
+			<label kind="guard" x="212" y="-256">ultMag &gt;= 70 &amp;&amp; ultMag &lt; 80</label>
+			<label kind="synchronisation" x="280" y="-212">lectura?</label>
+		</transition>
+		<transition id="id76">
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="51" y="169">ultMag &gt;=60 &amp;&amp; ultMag &lt; 70</label>
+			<label kind="synchronisation" x="102" y="195">lectura?</label>
+		</transition>
+		<transition id="id77">
+			<source ref="id15"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-357" y="476">ultMag &gt;= 50 &amp;&amp; ultMag &lt; 60</label>
+			<label kind="synchronisation" x="-357" y="493">lectura?</label>
+		</transition>
+		<transition id="id78">
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-850" y="476">ultMag &gt;= 40 &amp;&amp; ultMag &lt; 50</label>
+			<label kind="synchronisation" x="-791" y="501">lectura?</label>
+		</transition>
+		<transition id="id79">
+			<source ref="id10"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-1351" y="272">ultMag &gt;=30 &amp;&amp; ultMag &lt; 40</label>
+			<label kind="synchronisation" x="-1351" y="289">lectura?</label>
+		</transition>
+		<transition id="id80">
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1496" y="-153">ultMag &gt;= 5 &amp;&amp; ultMag &lt; 30</label>
+			<label kind="synchronisation" x="-1462" y="-136">lectura?</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">ClasificacionActividad</name>
+		<declaration>//clock x;</declaration>
+		<location id="id81" x="-17" y="-144">
+			<name x="-111" y="-178">inactivo</name>
+		</location>
+		<location id="id82" x="-17" y="93">
+			<name x="-119" y="85">pocoActivo</name>
+		</location>
+		<location id="id83" x="331" y="93">
+			<name x="357" y="76">moderadamenteActivo</name>
+		</location>
+		<location id="id84" x="331" y="-144">
+			<name x="357" y="-187">muyActivo</name>
+		</location>
+		<init ref="id81"/>
+		<transition id="id85">
+			<source ref="id84"/>
+			<target ref="id81"/>
+			<label kind="guard" x="-102" y="-161">len&lt;1</label>
+			<label kind="synchronisation" x="-110" y="-144">lectura?</label>
+			<nail x="153" y="-187"/>
+		</transition>
+		<transition id="id86">
+			<source ref="id84"/>
+			<target ref="id81"/>
+			<label kind="guard" x="-102" y="-161">len&lt;1</label>
+			<label kind="synchronisation" x="-110" y="-144">lectura?</label>
+		</transition>
+		<transition id="id87">
+			<source ref="id82"/>
+			<target ref="id84"/>
+			<label kind="guard" x="374" y="-170">len&gt;8</label>
+			<label kind="synchronisation" x="357" y="-153">lectura?</label>
+			<nail x="187" y="-17"/>
+		</transition>
+		<transition id="id88">
+			<source ref="id84"/>
+			<target ref="id82"/>
+			<label kind="guard" x="-152" y="110">len&lt;4 &amp;&amp; len&gt;=1</label>
+			<label kind="synchronisation" x="-118" y="135">lectura?</label>
+			<nail x="136" y="-51"/>
+		</transition>
+		<transition id="id89">
+			<source ref="id81"/>
+			<target ref="id83"/>
+			<label kind="guard" x="365" y="93">len&lt;=8 &amp;&amp; len&gt;=4</label>
+			<label kind="synchronisation" x="391" y="110">lectura?</label>
+			<nail x="178" y="-51"/>
+		</transition>
+		<transition id="id90">
+			<source ref="id83"/>
+			<target ref="id81"/>
+			<label kind="guard" x="-102" y="-161">len&lt;1</label>
+			<label kind="synchronisation" x="-110" y="-144">lectura?</label>
+			<nail x="136" y="-17"/>
+		</transition>
+		<transition id="id91">
+			<source ref="id84"/>
+			<target ref="id83"/>
+			<label kind="guard" x="365" y="93">len&lt;=8 &amp;&amp; len&gt;=4</label>
+			<label kind="synchronisation" x="391" y="110">lectura?</label>
+			<nail x="365" y="-25"/>
+		</transition>
+		<transition id="id92">
+			<source ref="id83"/>
+			<target ref="id82"/>
+			<label kind="guard" x="-153" y="110">len&lt;4 &amp;&amp; len&gt;=1</label>
+			<label kind="synchronisation" x="-119" y="136">lectura?</label>
+			<nail x="161" y="127"/>
+		</transition>
+		<transition id="id93">
+			<source ref="id82"/>
+			<target ref="id81"/>
+			<label kind="guard" x="-102" y="-161">len&lt;1</label>
+			<label kind="synchronisation" x="-110" y="-144">lectura?</label>
+			<nail x="-51" y="-25"/>
+		</transition>
+		<transition id="id94">
+			<source ref="id84"/>
+			<target ref="id84"/>
+			<label kind="guard" x="374" y="-170">len&gt;8</label>
+			<label kind="synchronisation" x="357" y="-153">lectura?</label>
+			<nail x="348" y="-178"/>
+			<nail x="323" y="-178"/>
+		</transition>
+		<transition id="id95">
+			<source ref="id83"/>
+			<target ref="id83"/>
+			<label kind="guard" x="365" y="93">len&lt;=8 &amp;&amp; len&gt;=4</label>
+			<label kind="synchronisation" x="391" y="110">lectura?</label>
+			<nail x="323" y="127"/>
+			<nail x="348" y="127"/>
+		</transition>
+		<transition id="id96">
+			<source ref="id82"/>
+			<target ref="id82"/>
+			<label kind="guard" x="-152" y="110">len&lt;4 &amp;&amp; len&gt;=1</label>
+			<label kind="synchronisation" x="-118" y="135">lectura?</label>
+			<nail x="-25" y="127"/>
+			<nail x="0" y="127"/>
+		</transition>
+		<transition id="id97">
+			<source ref="id81"/>
+			<target ref="id81"/>
+			<label kind="guard" x="-102" y="-161">len&lt;1</label>
+			<label kind="synchronisation" x="-110" y="-144">lectura?</label>
+			<nail x="0" y="-178"/>
+			<nail x="-25" y="-178"/>
+		</transition>
+		<transition id="id98">
+			<source ref="id83"/>
+			<target ref="id84"/>
+			<label kind="guard" x="374" y="-170">len&gt;8</label>
+			<label kind="synchronisation" x="357" y="-153">lectura?</label>
+		</transition>
+		<transition id="id99">
+			<source ref="id82"/>
+			<target ref="id83"/>
+			<label kind="guard" x="365" y="93">len&lt;=8 &amp;&amp; len&gt;=4</label>
+			<label kind="synchronisation" x="391" y="110">lectura?</label>
+		</transition>
+		<transition id="id100">
+			<source ref="id81"/>
+			<target ref="id82"/>
+			<label kind="guard" x="-152" y="110">len&lt;4 &amp;&amp; len&gt;=1</label>
+			<label kind="synchronisation" x="-118" y="135">lectura?</label>
+		</transition>
+	</template>
+	<template>
+		<name>LecturaSensorGeoterm</name>
+		<declaration>int [0, 150] temperatureHistory[2];
+int [0, 1] len_temps = 0;
+void eliminarRegistroTemperatura()
+{
+    if (len_temps &gt; 0) {
+        len_temps = len_temps - 1;
+        temperatureHistory[0] = temperatureHistory[1];
+        temperatureHistory[1] = 0;
+    }
+}
+void registrarCambioTemperatura(int r, int temperatura)
+{    
+    if(len_temps &gt;= 1){
+        eliminarRegistroTemperatura();
+    }
+    temperatureHistory[len_temps] = temperatura;
+    len_temps++;
+    
+    cambioTemp = temperatureHistory[0] - temperatureHistory[1];
+}</declaration>
+		<location id="id101" x="0" y="0">
+		</location>
+		<init ref="id101"/>
+		<transition id="id102">
+			<source ref="id101"/>
+			<target ref="id101"/>
+			<label kind="synchronisation" x="25" y="-34">lectGeoterm!</label>
+			<label kind="assignment" x="-102" y="-144">registrarCambioTemperatura(2, 50)</label>
+			<nail x="-34" y="-51"/>
+			<nail x="-25" y="-59"/>
+		</transition>
+		<transition id="id103">
+			<source ref="id101"/>
+			<target ref="id101"/>
+			<label kind="synchronisation" x="25" y="-51">lectGeoterm!</label>
+			<label kind="assignment" x="-102" y="-127">registrarCambioTemperatura(4, 60)</label>
+			<nail x="-17" y="-68"/>
+			<nail x="-8" y="-76"/>
+		</transition>
+		<transition id="id104">
+			<source ref="id101"/>
+			<target ref="id101"/>
+			<label kind="synchronisation" x="25" y="-68">lectGeoterm!</label>
+			<label kind="assignment" x="-102" y="-110">registrarCambioTemperatura(2, 40)</label>
+			<nail x="9" y="-76"/>
+			<nail x="17" y="-85"/>
+		</transition>
+	</template>
+	<template>
+		<name>ClasificacionCambioTemp</name>
+		<location id="id105" x="-34" y="-42">
+		</location>
+		<location id="id106" x="17" y="9">
+			<name x="0" y="51">Brusco</name>
+		</location>
+		<location id="id107" x="68" y="-42">
+			<name x="85" y="-33">Moderado</name>
+		</location>
+		<init ref="id105"/>
+		<transition id="id108">
+			<source ref="id106"/>
+			<target ref="id106"/>
+			<label kind="guard" x="0" y="34">cambioTemp&gt;5</label>
+			<label kind="synchronisation" x="0" y="17">lectGeoterm?</label>
+			<nail x="42" y="1"/>
+			<nail x="42" y="18"/>
+		</transition>
+		<transition id="id109">
+			<source ref="id107"/>
+			<target ref="id107"/>
+			<label kind="guard" x="85" y="-50">cambioTemp&gt;2 &amp;&amp; cambioTemp&lt;=5</label>
+			<label kind="synchronisation" x="85" y="-67">lectGeoterm?</label>
+			<nail x="59" y="-67"/>
+			<nail x="76" y="-67"/>
+		</transition>
+		<transition id="id110">
+			<source ref="id105"/>
+			<target ref="id105"/>
+			<label kind="guard" x="-161" y="-59">cambioTemp&lt;=2</label>
+			<label kind="synchronisation" x="-153" y="-76">lectGeoterm?</label>
+			<nail x="-42" y="-68"/>
+			<nail x="-25" y="-68"/>
+		</transition>
+		<transition id="id111">
+			<source ref="id107"/>
+			<target ref="id106"/>
+			<label kind="guard" x="0" y="34">cambioTemp&gt;5</label>
+			<label kind="synchronisation" x="0" y="17">lectGeoterm?</label>
+		</transition>
+		<transition id="id112">
+			<source ref="id106"/>
+			<target ref="id107"/>
+			<label kind="guard" x="85" y="-50">cambioTemp&gt;2 &amp;&amp; cambioTemp&lt;=5</label>
+			<label kind="synchronisation" x="85" y="-67">lectGeoterm?</label>
+			<nail x="68" y="-8"/>
+		</transition>
+		<transition id="id113">
+			<source ref="id106"/>
+			<target ref="id105"/>
+			<label kind="guard" x="-161" y="-59">cambioTemp&lt;=2</label>
+			<label kind="synchronisation" x="-152" y="-76">lectGeoterm?</label>
+		</transition>
+		<transition id="id114">
+			<source ref="id105"/>
+			<target ref="id106"/>
+			<label kind="guard" x="0" y="34">cambioTemp&gt;5</label>
+			<label kind="synchronisation" x="0" y="17">lectGeoterm?</label>
+			<nail x="-34" y="-8"/>
+		</transition>
+		<transition id="id115">
+			<source ref="id107"/>
+			<target ref="id105"/>
+			<label kind="guard" x="-161" y="-59">cambioTemp&lt;=2</label>
+			<label kind="synchronisation" x="-152" y="-76">lectGeoterm?</label>
+			<nail x="34" y="-67"/>
+			<nail x="0" y="-67"/>
+		</transition>
+		<transition id="id116">
+			<source ref="id105"/>
+			<target ref="id107"/>
+			<label kind="guard" x="85" y="-50">cambioTemp&gt;2 &amp;&amp; cambioTemp&lt;=5</label>
+			<label kind="synchronisation" x="85" y="-67">lectGeoterm?</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+clasificacionActividad = ClasificacionActividad();
+clasificacionMagnitud = ClasificacionMagnitud(); 
+lecturaSensorSismico = LecturaSensorSismico(); 
+
+lecturaSensorGeoterm = LecturaSensorGeoterm();
+clasificacionCambioTemp = ClasificacionCambioTemp();
+
+// monitor = Monitor(clasificacionCambioTemp);
+// List one or more processes to be composed into a system.
+system clasificacionActividad, clasificacionMagnitud, lecturaSensorSismico, lecturaSensorGeoterm, clasificacionCambioTemp;</system>
+	<queries>
+		<query>
+			<formula>//validacion de propiedades===================================================================</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (lecturaSismicaSistema.time[0] + 24 &lt; lecturaSismicaSistema.x)</formula>
+			<comment>//cuando un registro del sismometro pasa las 24 h de tiempo</comment>
+			<result outcome="success" type="quality" timestamp="2024-01-15 10:18:20 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] len &gt;= 1 and (lecturaSismicaSistema.time[len-1] &lt;= lecturaSismicaSistema.x) or 
+(len == 0 and lecturaSismicaSistema.time[len] == 0)</formula>
+			<comment>//El tiempo de cada lectura va ser menor o igual al tiempo lectura actual</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; lecMagnitudes.Terremotomuygrande and lecEventos.muyActivo</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-01-15 09:34:14 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; lecEventos.inactivo</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-01-15 09:34:12 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; lecEventos.pocoActivo</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-01-18 08:56:28 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; lecEventos.muyActivo</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-01-18 08:56:23 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; lecMagnitudes. Noterremoto</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-01-15 09:38:16 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; lecMagnitudes.Terremotomuygrande</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-01-15 09:38:42 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] (ultMag &lt; 5 and (len &gt;= 1 and lecturaSismicaSistema.listMagnitudes[len-1] != ultMag) or 
+(len == 0 and lecturaSismicaSistema.listMagnitudes[len] == 0)) or ultMag &gt;= 5</formula>
+			<comment>//cuando un registro de magnitud es menor a 5(Mw*10) no se agrega a la lista de magnitudes
+//se pone ultMag &gt;= 5 porque la magnitud no siempre va ser menor a 5</comment>
+			<result outcome="success" type="quality" timestamp="2024-01-15 11:41:34 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; ultMag &gt; 80</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-01-15 09:34:18 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] (ultMag &gt;= 0)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-01-15 09:34:21 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] (len &gt;= 0 and len &lt;= N)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-01-15 09:34:24 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>A[] lecturaSismicaSistema.listMagnitudes[N] == 0</formula>
+			<comment>//el ultimo de la lista sirve para ayudar a borrar el primer registro de la lista en forma de cola
+//se utiliza cuando un registro alcanzo las 24 h o cuando se supero los 10 registros
+//en este caso N, seria el registro 11 por eso siempre debe ser 0</comment>
+			<result outcome="success" type="quality" timestamp="2024-01-15 09:34:28 -0500">
+			</result>
+		</query>
+		<query>
+			<formula>//checando deadlock===========================================================================</formula>
+			<comment/>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment>//no se encontraron bloqueo mutuo o puntos muertos en el sistema generado por UPPAAL</comment>
+			<result outcome="success" type="quality" timestamp="2024-01-15 11:39:11 -0500">
+			</result>
+		</query>
+	</queries>
+</nta>
